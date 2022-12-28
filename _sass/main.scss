@@ -23,4 +23,13 @@ $fa-font-path: "webfonts";
 // ======
 
 @import "footer";
+@import "spinner";
+
+
+// ========
+// Darkmode
+// ========
+//
+// NOTE: Needs to be the last include, as it overwrites classes previously
+//       configured with values applied in dark mode.
 @import "darkmode";
