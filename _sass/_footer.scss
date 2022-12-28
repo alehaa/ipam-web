@@ -1,0 +1,45 @@
+/* This file is part of IPAM Web.
+ *
+ * Copyright (c) Alexander Haase <ahaase@alexhaase.de>
+ *
+ * This project is licensed under the MIT License. For the full copyright and
+ * license information, please view the LICENSE file that was distributed with
+ * this source code.
+ */
+
+/* The following classes will be used to define the look of the page's footer.
+ *
+ * If the content doesn't fill the entire browser window, the footer should
+ * still fit to the bottom of the page - in this case the bottom of the browser
+ * window. The following snippet will expand the content of the page, so the
+ * footer will be displayed at the bottom of the page or the window, depending
+ * on the size of the content.
+ *
+ * This snippet is based on an answer (https://stackoverflow.com/a/27635568)
+ * of abmmhasan (https://stackoverflow.com/users/3300834) at
+ * stackoverflow.com, licensed under CC-BY-SA 3.0. */
+
+html {
+  position:   relative;
+  min-height: 100%;
+}
+
+body {
+  margin-bottom: $footer-height;
+}
+
+footer {
+  position: absolute;
+  bottom:   0;
+  width:    100%;
+  height:   $footer-height;
+
+  /* Vertically center-align the text, so no additional paddings and margins
+   * are required. */
+  line-height: $footer-height;
+
+  /* Define the look and feel of the footer by aliasing a set of existing
+   * bootstrap classes, so these don't have be set additionally for the footer
+   * in HTML. */
+  @extend .small, .text-muted, .text-end;
+}

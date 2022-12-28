@@ -27,4 +27,8 @@
     --bs-card-bg:     #{$dark-card-bg};
     --bs-card-cap-bg: #{$dark-card-cap-bg};
   }
+
+  .text-muted {
+    color: $dark-text-muted !important;
+  }
 }
