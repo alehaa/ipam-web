@@ -19,6 +19,10 @@
     --bs-body-color: #{$dark-body-color};
   }
 
+  body {
+    --bs-body-color: #{$dark-body-color};
+  }
+
   .navbar {
     --bs-navbar-brand-color: #{$dark-body-color};
   }
@@ -26,9 +30,5 @@
   .card {
     --bs-card-bg:     #{$dark-card-bg};
     --bs-card-cap-bg: #{$dark-card-cap-bg};
-  }
-
-  .text-muted {
-    color: $dark-text-muted !important;
   }
 }
