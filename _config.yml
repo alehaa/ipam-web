@@ -1,0 +1,28 @@
+# This file is part of IPAM Web.
+#
+# Copyright (c) Alexander Haase <ahaase@alexhaase.de>
+#
+# This project is licensed under the MIT License. For the full copyright and
+# license information, please view the LICENSE file that was distributed with
+# this source code.
+
+sass:
+  # Add dependencies installed by yarn / npm to the search path of Jekyll's sass
+  # compiler, so these can be imported by generated assets.
+  load_paths:
+    - _includes
+    - node_modules
+
+  # Minify the CSS output by stripping out comments and unnecessary spaces,
+  # compressing the output into a single line.
+  style: compressed
+
+
+# Exclude all files not required for deployment, to optimize the build process
+# by reducing necessary copying of files and reducing the package size.
+exclude:
+  - README.md
+  - LICENSE
+  - /package.json
+  - /*.lock
+  - /node_modules
