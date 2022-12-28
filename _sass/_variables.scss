@@ -15,3 +15,14 @@
 $enable-rounded: false;
 
 $body-bg: #eee;
+
+
+/* Add custom variables for dark colors, not included in the default bootstrap
+ * source code. These will be used automatically, if the client prefers a dark
+ * color scheme. */
+
+$dark-body-bg:      #222;
+$dark-body-color:   white;
+
+$dark-card-bg:     #333;
+$dark-card-cap-bg: #444;

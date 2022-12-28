@@ -1,0 +1,30 @@
+/* This file is part of IPAM Web.
+ *
+ * Copyright (c) Alexander Haase <ahaase@alexhaase.de>
+ *
+ * This project is licensed under the MIT License. For the full copyright and
+ * license information, please view the LICENSE file that was distributed with
+ * this source code.
+ */
+
+/* If the client prefers a dark color scheme, the following classes will be
+ * applied to give the site a dark look and feel.
+ *
+ * NOTE: These classes need to be at the end of this file, as they override the
+ *       default settings previously defined, if the dark color scheme is
+ *       requested. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bs-body-bg:    #{$dark-body-bg};
+    --bs-body-color: #{$dark-body-color};
+  }
+
+  .navbar {
+    --bs-navbar-brand-color: #{$dark-body-color};
+  }
+
+  .card {
+    --bs-card-bg:     #{$dark-card-bg};
+    --bs-card-cap-bg: #{$dark-card-cap-bg};
+  }
+}
