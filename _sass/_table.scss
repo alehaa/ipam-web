@@ -1,0 +1,16 @@
+/* This file is part of IPAM Web.
+ *
+ * Copyright (c) Alexander Haase <ahaase@alexhaase.de>
+ *
+ * This project is licensed under the MIT License. For the full copyright and
+ * license information, please view the LICENSE file that was distributed with
+ * this source code.
+ */
+
+.table {
+  /* Hide the line (border) between two rows. As it can't be disabled in
+   * bootstrap, the thickness simply will be reduced to zero. */
+  > :not(caption) > * > * {
+    border-bottom-width: 0 !important;
+  }
+}

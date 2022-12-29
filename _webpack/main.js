@@ -7,6 +7,7 @@
  * this source code.
  */
 
+import {IPAM}  from './ipam.js';
 import {Page}  from './page.js';
 import {Query} from './query.js';
 
@@ -47,4 +48,5 @@ export function lookup_ip()
   /* Process the query, fetch all data and fill the related data into the cards
    * and tables at the page. */
   Page.setTitle(q);
+  IPAM.fetchIp(q).then(data => Page.fillCard('ip', data));
 }

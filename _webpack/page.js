@@ -83,4 +83,42 @@ export class Page
     this.hide('content');
     this.show('error');
   }
+
+  /**
+   * Fill a data card with information.
+   *
+   * This method takes a given dataset @p data and fills the key-value-pairs
+   * into table cells of a @p card equally named.
+   *
+   *
+   * @param card The card to be filled.
+   * @param data The data to be filled in.
+   */
+  static fillCard(card, data)
+  {
+    /* Data will be processed only, if data has been passed (and previously
+     * found via API). This step is necessary to allow using this function
+     * without checking the data and always hide the spinner (below), to
+     * indicate data is not being loaded / processed anymore. */
+    if (data) {
+      /* For each entry in 'data', search for an equally named table cell, where
+       * the data can be filled into. If the related cell is not available, just
+       * ignore it. */
+      for (var key in data)
+      {
+        try {
+          this.setContent('ipam.' + card + '.' + key, data[key]);
+        } catch {}
+      }
+
+      /* Show the div containing the data previously set, so its finally visible
+       * to the user. */
+      this.show('card-' + card + '-data');
+    }
+
+    /* Finally, hide the spinner, as no data is being processed anymore. This
+     * will be done, even if no data could be found, to indicate this status to
+     * the user and doesn't wait indefinitely. */
+    this.hide('card-' + card + '-spinner');
+  }
 }

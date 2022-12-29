@@ -7,7 +7,7 @@
  * this source code.
  */
 
-const ipaddr = require('ipaddr.js');
+import ipaddr from 'ipaddr.js';
 
 
 /**

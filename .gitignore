@@ -12,3 +12,7 @@
 
 /node_modules
 /*.lock
+
+# Ignore API data, as it will be generated dynamically and is not part of the
+# source code maintained.
+/api
