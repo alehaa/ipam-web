@@ -26,3 +26,11 @@ exclude:
   - /package.json
   - /*.lock
   - /node_modules
+  - /webpack.config.js
+  - /_webpack
+
+# To optimize the build process, webpack will output generated files directly
+# into jekyll's destination path. This mainly avoids triggering a rebuild during
+# development.
+keep_files:
+  - assets/main.js
