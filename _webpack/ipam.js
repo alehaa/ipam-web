@@ -46,6 +46,10 @@ export class IPAM
    * for the client. It's used as abstraction, so clients don't need to resolve
    * the URL and parse the data retrieved.
    *
+   * @note If the API returns an error 404 (e.g. no v6 files available), this
+   *       method returns an empty array. This allows the callee to simply see
+   *       this as empty collection instead of handling errors.
+   *
    * @note Results fetched from the API won't be cached, as a single page will
    *       fetch each API resource usually once only.
    *
@@ -59,6 +63,15 @@ export class IPAM
   static fetch(ipVersion, file)
   {
     return fetch(['', 'api', ipVersion, file].join('/'))
+      /* If the API returns an error 404, don't throw an error, but simply use
+       * an empty array instead, to mimic an empty collection. As the following
+       * functions will parse the readonly response body as JSON, this simply
+       * can be achieved by overriding the 'json()' method. */
+      .then(response => {
+        if (response.status == 404) response.json = () => [];
+        return response;
+      })
+
       /* Parse the retrieved data to decode JSON as JavaScript object, which is
        * simple to handle instead. */
       .then(response => response.json());
