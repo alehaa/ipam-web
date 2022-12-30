@@ -10,6 +10,7 @@
 import {IPAM}  from './ipam.js';
 import {Page}  from './page.js';
 import {Query} from './query.js';
+import {IpRange}  from './range';
 
 
 // =====
@@ -51,4 +52,30 @@ export function lookup_ip()
   IPAM.fetchIp(q).then(        data => Page.fillCard('ip',     data));
   IPAM.fetchRangeByIp(q).then( data => Page.fillCard('range',  data));
   IPAM.fetchSubnetByIp(q).then(data => Page.fillSubnet(data, q));
+}
+
+/**
+ * Lookup an IP range.
+ *
+ * This function looks up an IP range passed in the global query string and
+ * displays its information along with related objects.
+ */
+export function lookup_range()
+{
+  /* Evaluate the query and check, whether it's a valid IP range object. If not,
+   * this method can't handle the query and an error will be displayed. */
+  const q = query.global;
+  if (!(q instanceof IpRange))
+  {
+    Page.error('The given query string is not a valid IP range.');
+    return;
+  }
+
+  /* Process the query, fetch all data and fill the related data into the cards
+   * and tables at the page. */
+  Page.setTitle(q);
+  IPAM.fetchRange(q).then(data => {
+    Page.fillCard('range', data);
+  });
+  IPAM.fetchSubnetByIp(q.first).then(data => Page.fillSubnet(data, ''));
 }

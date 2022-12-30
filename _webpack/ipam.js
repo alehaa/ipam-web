@@ -109,8 +109,30 @@ export class IPAM
   static enrichRange(data)
   {
     if (data)
-      data.range = data.ip_first + ' - ' + data.ip_last;
+      data.range = new IpRange(
+        ipaddr.process(data.ip_first),
+        ipaddr.process(data.ip_last));
     return data;
+  }
+
+  /**
+   * Fetch an IP range object.
+   *
+   * This method searches the API for a specific IP range object and returns it.
+   *
+   *
+   * @param range The IP range to be fetched.
+   *
+   * @returns Promise to fetch the data.
+   */
+  static fetchRange(range)
+  {
+    return this.fetch(this.ipVersion(range.first), 'range.json')
+      .then(response => response.find(
+        (item) => {
+          return (item.ip_first == range.first) && (item.ip_last == range.last);
+        }))
+      .then(this.enrichRange);
   }
 
   /**

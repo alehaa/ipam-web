@@ -7,6 +7,9 @@
  * this source code.
  */
 
+import ipaddr from 'ipaddr.js';
+
+
 /**
  * IP range class.
  *
@@ -27,6 +30,34 @@ export class IpRange
   {
     this.first = first;
     this.last = last;
+  }
+
+  /**
+   * Check if a string is a valid IP range.
+   *
+   *
+   * @param str The string to be checked.
+   *
+   * @returns True, if string is a valid IP range, otherwise false.
+   */
+  static isValid(str)
+  {
+    const ips = str.split('-');
+    return (ips.length == 2) && ips.every(ipaddr.isValid);
+  }
+
+  /**
+   * Convert an IP range string into a valid IP range object.
+   *
+   *
+   * @param str The string to be parsed.
+   *
+   * @returns The converted IP range object.
+   */
+  static process(str)
+  {
+    const ips = str.split('-');
+    return new this(ipaddr.process(ips[0]), ipaddr.process(ips[1]));
   }
 
   /**
@@ -62,6 +93,17 @@ export class IpRange
     /* If all parts are equal, the IP is definitely in the range and true can be
      * returned. */
     return true;
+  }
+
+  /**
+   * Convert IP range to string.
+   *
+   *
+   * @returns String representation of the current IP range of this object.
+   */
+  toString()
+  {
+    return this.first + ' - ' + this.last;
   }
 
   /**
