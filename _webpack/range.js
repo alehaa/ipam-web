@@ -30,26 +30,6 @@ export class IpRange
   }
 
   /**
-   * Get parts of IP.
-   *
-   * This method is used for compatibility between IPv4 and IPv6 addresses, to
-   * always get the array storing its integer components.
-   *
-   *
-   * @param ip The IP to be used.
-   *
-   * @returns Parts of @p ip.
-   */
-  static getIpParts(ip)
-  {
-    switch (ip.kind())
-    {
-      case 'ipv4': return ip.octets;
-      case 'ipv6': return ip.parts;
-    }
-  }
-
-  /**
    * Compare an @p ip to be in the IP range.
    *
    * This method takes an @p ip and @p rangeIp and compares them by @p cmp to
@@ -67,8 +47,8 @@ export class IpRange
   {
     /* Iterate over parts of both IPs. All parts that are equal will be skipped,
      * as they can't be used for comparison. */
-    const a = this.getIpParts(ip);
-    const b = this.getIpParts(rangeIp);
+    const a = ip.toByteArray();
+    const b = rangeIp.toByteArray();
     for (let i in a)
     {
       if (a[i] == b[i])
