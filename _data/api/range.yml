@@ -6,39 +6,33 @@
 # license information, please view the LICENSE file that was distributed with
 # this source code.
 
-# ID field: ip
+- id:   range
+  name: IP Range
+  icon: fa-left-right
 
-- id:   name
-  name: Name
-  icon: fa-info-circle
-
-- id:   mac
-  name: MAC
+- id:   gateway
+  name: Gateway
   icon: fa-globe
-
-- id:   type
-  name: Type
-  icon: fa-desktop
-
-- id:   asset
-  name: Asset
-  icon: fa-tag
-
-- id:   serial
-  name: Serial
-  icon: fa-fingerprint
 
 - id:   site
   name: Site
   icon: fa-house
 
+- id:   assignment
+  name: Assignment
+  icon: fa-pen
+
+- id:   managed
+  name: Managed by
+  icon: fa-cog
+
 - id:   assigned
   name: Assigned
   icon: fa-calendar-plus
 
-- id:   expires
-  name: Expires
-  icon: fa-calendar-minus
+- id:   scope
+  name: Scope
+  icon: fa-folder
 
 - id:   owner
   name: Owner

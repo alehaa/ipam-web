@@ -8,6 +8,7 @@
  */
 
 import ipaddr from 'ipaddr.js';
+import { IpRange } from './range';
 
 
 /**
@@ -92,6 +93,48 @@ export class IPAM
   {
     return this.fetch(this.ipVersion(ip), 'ip.json')
       .then(response => response.find((item) => item.ip === ip.toString()));
+  }
+
+  /**
+   * Enrich an IP range with additional data.
+   *
+   * This method adds metadata to @p data composed from other fields of an
+   * existing IP range.
+   *
+   *
+   * @param data Data to be enriched.
+   *
+   * @returns Enriched dataset.
+   */
+  static enrichRange(data)
+  {
+    if (data)
+      data.range = data.ip_first + ' - ' + data.ip_last;
+    return data;
+  }
+
+  /**
+   * Fetch an IP range by one of its IPs.
+   *
+   * This method searches the API for an IP range that contains @p ip and
+   * returns it.
+   *
+   *
+   * @param ip The IP to be searched an IP range for.
+   *
+   * @returns Promise to fetch the data.
+   */
+  static fetchRangeByIp(ip)
+  {
+    return this.fetch(this.ipVersion(ip), 'range.json')
+      .then(response => response.find(
+        (item) => {
+          let range = new IpRange(
+            ipaddr.parse(item.ip_first),
+            ipaddr.parse(item.ip_last));
+          return range.match(ip);
+        }))
+      .then(this.enrichRange);
   }
 
   /**
