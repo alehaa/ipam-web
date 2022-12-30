@@ -48,5 +48,6 @@ export function lookup_ip()
   /* Process the query, fetch all data and fill the related data into the cards
    * and tables at the page. */
   Page.setTitle(q);
-  IPAM.fetchIp(q).then(data => Page.fillCard('ip', data));
+  IPAM.fetchIp(q).then(        data => Page.fillCard('ip',     data));
+  IPAM.fetchSubnetByIp(q).then(data => Page.fillCard('subnet', data));
 }

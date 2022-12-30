@@ -93,4 +93,23 @@ export class IPAM
     return this.fetch(this.ipVersion(ip), 'ip.json')
       .then(response => response.find((item) => item.ip === ip.toString()));
   }
+
+  /**
+   * Fetch a subnet by one of its IPs.
+   *
+   * This method searches the API for a subnet that contains @p ip and returns
+   * it.
+   *
+   *
+   * @param ip The IP to be searched a subnet for.
+   *
+   * @returns Promise to fetch the data.
+   */
+  static fetchSubnetByIp(ip)
+  {
+    return this.fetch(this.ipVersion(ip), 'subnet.json')
+      .then(response => response.find(
+        (item) => ip.match(ipaddr.parseCIDR(item.network))
+      ));
+  }
 }

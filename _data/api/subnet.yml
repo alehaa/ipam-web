@@ -1,0 +1,35 @@
+# This file is part of IPAM Web.
+#
+# Copyright (c) Alexander Haase <ahaase@alexhaase.de>
+#
+# This project is licensed under the MIT License. For the full copyright and
+# license information, please view the LICENSE file that was distributed with
+# this source code.
+
+- id:   network
+  name: Network
+  icon: fa-cloud
+
+- id:   name
+  name: Name
+  icon: fa-info-circle
+
+- id:   vlan
+  name: VLAN
+  icon: fa-tag
+
+- id:   site
+  name: Site
+  icon: fa-house
+
+- id:   scope
+  name: Scope
+  icon: fa-folder
+
+- id:   owner
+  name: Owner
+  icon: fa-user
+
+- id:   description
+  name: Description
+  icon: fa-comment
