@@ -138,6 +138,32 @@ export class IPAM
   }
 
   /**
+   * Enrich a subnet with additional data.
+   *
+   * This method adds metadata to @p data composed from other fields of an
+   * existing subnet.
+   *
+   *
+   * @param data Data to be enriched.
+   *
+   * @returns Enriched dataset.
+   */
+  static enrichSubnet(data)
+  {
+    if (data)
+      /* For subnets, the 'owner' field can be used for defining an external
+       * service to be used for IP lookups (e.g. for a VPN managing its IP range
+       * on its own). If found, the following lines will transform the text into
+       * the URL to be used for lookup. */
+      if ('owner' in data && data.owner.startsWith('lookup:'))
+      {
+        data.lookup_url = data.owner.replace('lookup:', '');
+        delete data.owner;
+      }
+    return data;
+  }
+
+  /**
    * Fetch a subnet by one of its IPs.
    *
    * This method searches the API for a subnet that contains @p ip and returns
@@ -153,6 +179,7 @@ export class IPAM
     return this.fetch(this.ipVersion(ip), 'subnet.json')
       .then(response => response.find(
         (item) => ip.match(ipaddr.parseCIDR(item.network))
-      ));
+        ))
+      .then(this.enrichSubnet);
   }
 }

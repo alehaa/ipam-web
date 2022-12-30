@@ -8,10 +8,10 @@
   this source code.
 {% endcomment %}
 
-{% include cards/_card.html
-  id     = 'ip'
-  title  = 'IP Assignment'
-  icon   = 'fa-desktop'
-  table  = true
-  lookup = true
-%}
+<div class="card-body d-none" id="ip-lookup">
+  Assignments of this subnet are managed externally.
+
+  <div class="text-center mt-2">
+    <a class="btn btn-outline-success" id="ipam.ip.lookup">Lookup IP</a>
+  </div>
+</div>

@@ -121,4 +121,29 @@ export class Page
      * the user and doesn't wait indefinitely. */
     this.hide('card-' + card + '-spinner');
   }
+
+  /**
+   * Fill the subnet card with data.
+   *
+   * Despite other cards, the one for subnets needs special handling, as its
+   * data can affect others for external lookup IP assignments. This method will
+   * handle all necessary steps.
+   *
+   *
+   * @param data The data to be filled in the card.
+   * @param ip The current IP being queried, used for the external lookup link.
+   */
+  static fillSubnet(data, ip)
+  {
+    this.fillCard('subnet', data);
+
+    /* If an external lookup URL is defined, additional text and a lookup button
+     * will be displayed. */
+    if (data && 'lookup_url' in data)
+    {
+      const url = data.lookup_url.replace('%{ip}', ip);
+      document.getElementById('ipam.ip.lookup').href = url;
+      this.show('ip-lookup');
+    }
+  }
 }

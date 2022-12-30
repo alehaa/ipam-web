@@ -50,5 +50,5 @@ export function lookup_ip()
   Page.setTitle(q);
   IPAM.fetchIp(q).then(        data => Page.fillCard('ip',     data));
   IPAM.fetchRangeByIp(q).then( data => Page.fillCard('range',  data));
-  IPAM.fetchSubnetByIp(q).then(data => Page.fillCard('subnet', data));
+  IPAM.fetchSubnetByIp(q).then(data => Page.fillSubnet(data, q));
 }
