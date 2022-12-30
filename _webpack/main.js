@@ -76,6 +76,9 @@ export function lookup_range()
   Page.setTitle(q);
   IPAM.fetchRange(q).then(data => {
     Page.fillCard('range', data);
+    Page.drawGraph(
+      'utilization',
+      (data && 'utilized' in data) ? data.utilized : null);
   });
   IPAM.fetchSubnetByIp(q.first).then(data => Page.fillSubnet(data, ''));
 }

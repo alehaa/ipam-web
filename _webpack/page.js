@@ -146,4 +146,42 @@ export class Page
       this.show('ip-lookup');
     }
   }
+
+  /**
+   * Draw a percentage graph.
+   *
+   * This method draws a pretty simple percentage graph (as progress bar), e.g.
+   * for utilization data.
+   *
+   *
+   * @param card The card in which the graph should be drawn.
+   * @param p Percentage to be drawn.
+   */
+  static drawGraph(card, p)
+  {
+    /* Data will be processed only, if data has been passed (and previously
+     * found via API). This step is necessary to allow using this function
+     * without checking the data and always hide the spinner (below), to
+     * indicate data is not being loaded / processed anymore. */
+    if (typeof p == 'number') {
+      const dom = document.getElementById('ipam.' + card + '.graph');
+      dom.style.width  = p + '%';
+      dom.ariaValueNow = p;
+
+      /* Colorize the graph according to the percentage value. Utilization under
+       * 75% gets green, under 90% yellow, above is red. */
+           if (p < 75) dom.classList.add('bg-success');
+      else if (p < 90) dom.classList.add('bg-warning');
+      else             dom.classList.add('bg-danger');
+
+      /* Show the div containing the data previously set, so its finally visible
+       * to the user. */
+      this.show('card-' + card + '-graph');
+    }
+
+    /* Finally, hide the spinner, as no data is being processed anymore. This
+     * will be done, even if no data could be found, to indicate this status to
+     * the user and doesn't wait indefinitely. */
+    this.hide('card-' + card + '-spinner');
+  }
 }

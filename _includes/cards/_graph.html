@@ -1,0 +1,17 @@
+{% comment %}
+  This file is part of IPAM Web.
+
+  Copyright (c) Alexander Haase <ahaase@alexhaase.de>
+
+  This project is licensed under the MIT License. For the full copyright and
+  license information, please view the LICENSE file that was distributed with
+  this source code.
+{% endcomment %}
+
+<div class="card-body small d-none" id="card-{{ include.id }}-graph">
+  <div class="progress">
+    <div class="progress-bar" id="ipam.{{ include.id }}.graph"
+         role="progressbar"
+         aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+  </div>
+</div>

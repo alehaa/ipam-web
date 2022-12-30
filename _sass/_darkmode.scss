@@ -31,4 +31,8 @@
     --bs-card-bg:     #{$dark-card-bg};
     --bs-card-cap-bg: #{$dark-card-cap-bg};
   }
+
+  .progress {
+    --bs-progress-bg: #{$dark-progress-bg};
+  }
 }
