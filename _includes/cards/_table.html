@@ -1,0 +1,25 @@
+{% comment %}
+  This file is part of IPAM Web.
+
+  Copyright (c) Alexander Haase <ahaase@alexhaase.de>
+
+  This project is licensed under the MIT License. For the full copyright and
+  license information, please view the LICENSE file that was distributed with
+  this source code.
+{% endcomment %}
+
+<div class="card-body small p-0 d-none" id="card-{{ include.id }}-data">
+  <table class="table table-condensed table-striped m-0">
+    <tbody>
+      {% for row in site.data.api[ include.id ] %}
+        <tr>
+          <td>
+            <span class="fa-fw fa-solid {{ row.icon }}"></span>
+            {{ row.name }}
+          </td>
+          <td class="text-end" id="ipam.{{ include.id }}.{{ row.id }}"></td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

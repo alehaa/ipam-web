@@ -1,14 +1,15 @@
-<div class="col-md-4 mb-2">
-  <div class="card">
-    <div class="card-header">
-      <i class="fa-fw me-2 fa-solid fa-layer-group"></i>
-      IP Range
-    </div>
+{% comment %}
+  This file is part of IPAM Web.
 
-    <div class="card-body text-center" id="card-range-spinner">
-      <div class="spinner-border" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-    </div>
-  </div>
-</div>
+  Copyright (c) Alexander Haase <ahaase@alexhaase.de>
+
+  This project is licensed under the MIT License. For the full copyright and
+  license information, please view the LICENSE file that was distributed with
+  this source code.
+{% endcomment %}
+
+{% include cards/_card.html
+  id    = 'range'
+  title = 'IP Range'
+  icon  = 'fa-layer-group'
+%}

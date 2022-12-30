@@ -1,84 +1,16 @@
-<div class="col-md-4 mb-2">
-  <div class="card">
-    <div class="card-header">
-      <i class="fa-fw me-2 fa-solid fa-desktop"></i>
-      IP Assignment
-    </div>
+{% comment %}
+  This file is part of IPAM Web.
 
-    <div class="card-body text-center" id="card-ip-spinner">
-      <div class="spinner-border" role="status">
-        <span class="visually-hidden">Loading...</span>
-      </div>
-    </div>
+  Copyright (c) Alexander Haase <ahaase@alexhaase.de>
 
-    <div class="card-body p-0 small d-none" id="card-ip-data">
-      <table class="table table-condensed table-striped m-0">
-        <tbody>
-          <tr>
-            <td>
-              <span class="fa-fw fa-solid fa-info-circle"></span>
-              Name
-            </td>
-            <td class="text-end" id="ipam.ip.name"></td>
-          </tr>
-          <tr>
-            <td>
-              <span class="fa-fw fa-solid fa-globe"></span>
-              MAC
-            </td>
-            <td class="text-end" id="ipam.ip.mac"></td>
-          </tr>
-          <tr>
-            <td>
-              <span class="fa-fw fa-solid fa-desktop"></span>
-              Type
-            </td>
-            <td class="text-end" id="ipam.ip.type"></td>
-          </tr>
-          <tr>
-            <td>
-              <span class="fa-fw fa-solid fa-tag"></span>
-              Asset
-            </td>
-            <td class="text-end" id="ipam.ip.asset"></td>
-          </tr>
-          <tr>
-            <td>
-              <span class="fa-fw fa-solid fa-fingerprint"></span>
-              Serial
-            </td>
-            <td class="text-end" id="ipam.ip.serial"></td>
-          </tr>
-          <tr>
-            <td>
-              <span class="fa-fw fa-solid fa-calendar-plus"></span>
-              Assigned
-            </td>
-            <td class="text-end" id="ipam.ip.assigned"></td>
-          </tr>
-          <tr>
-            <td>
-              <span class="fa-fw fa-solid fa-calendar-minus"></span>
-              Expires
-            </td>
-            <td class="text-end" id="ipam.ip.expires"></td>
-          </tr>
-          <tr>
-            <td>
-              <span class="fa-fw fa-solid fa-user"></span>
-              Owner
-            </td>
-            <td class="text-end" id="ipam.ip.owner"></td>
-          </tr>
-          <tr>
-            <td>
-              <span class="fa-fw fa-solid fa-comment"></span>
-              Description
-            </td>
-            <td class="text-end" id="ipam.ip.description"></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-</div>
+  This project is licensed under the MIT License. For the full copyright and
+  license information, please view the LICENSE file that was distributed with
+  this source code.
+{% endcomment %}
+
+{% include cards/_card.html
+  id    = 'ip'
+  title = 'IP Assignment'
+  icon  = 'fa-desktop'
+  table = true
+%}

@@ -1,0 +1,45 @@
+# This file is part of IPAM Web.
+#
+# Copyright (c) Alexander Haase <ahaase@alexhaase.de>
+#
+# This project is licensed under the MIT License. For the full copyright and
+# license information, please view the LICENSE file that was distributed with
+# this source code.
+
+# ID field: ip
+
+- id:   name
+  name: Name
+  icon: fa-info-circle
+
+- id:   mac
+  name: MAC
+  icon: fa-globe
+
+- id:   type
+  name: Type
+  icon: fa-desktop
+
+- id:   asset
+  name: Asset
+  icon: fa-tag
+
+- id:   serial
+  name: Serial
+  icon: fa-fingerprint
+
+- id:   assigned
+  name: Assigned
+  icon: fa-calendar-plus
+
+- id:   expires
+  name: Expires
+  icon: fa-calendar-minus
+
+- id:   owner
+  name: Owner
+  icon: fa-user
+
+- id:   description
+  name: Description
+  icon: fa-comment
