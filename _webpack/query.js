@@ -69,9 +69,10 @@ export class Query
    */
   static parse(q)
   {
-    /* Finally, if no other conditions met, convert the query string to an IP
-     * address object. */
-    return ipaddr.process(q);
+    /* If the query string is a valid IP address, convert it into such an
+     * object. */
+    if (ipaddr.isValid(q))
+      return ipaddr.process(q);
   }
 
   /**
