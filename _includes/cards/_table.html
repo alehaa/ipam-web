@@ -17,7 +17,9 @@
             <span class="fa-fw fa-solid {{ row.icon }}"></span>
             {{ row.name }}
           </td>
-          <td class="text-end" id="ipam.{{ include.id }}.{{ row.id }}"></td>
+          <td class="text-end" id="ipam.{{ include.id }}.{{ row.id }}"
+            {% if row.link %}data-link="{% link {{ row.link}} %}"{% endif %}
+          ></td>
         </tr>
       {% endfor %}
     </tbody>

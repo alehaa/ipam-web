@@ -49,7 +49,24 @@ export class Page
    */
   static setContent(id, value)
   {
-    document.getElementById(id).innerHTML = value;
+    const dom = document.getElementById(id);
+
+    /* If the target element has a link attribute set, add an anchor instead of
+     * plain text. The value will be added as query parameter, so users can
+     * click the value to be redirected.
+     *
+     * NOTE: For URL generation, spaces will be removed from the value. This
+     *       mainly is required for IP ranges. */
+    if ('link' in dom.dataset)
+    {
+      var a = document.createElement('a');
+      a.href = dom.dataset.link + '?q=' + String(value).replace(/ /g, '');
+      a.innerHTML = value;
+      dom.appendChild(a);
+      return;
+    }
+
+    dom.innerHTML = value;
   }
 
   /**

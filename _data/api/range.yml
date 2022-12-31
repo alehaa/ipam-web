@@ -9,6 +9,7 @@
 - id:   range
   name: IP Range
   icon: fa-left-right
+  link: lookup/range.html
 
 - id:   gateway
   name: Gateway
