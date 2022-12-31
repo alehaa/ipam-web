@@ -82,3 +82,31 @@ export function lookup_range()
   });
   IPAM.fetchSubnetByIp(q.first).then(data => Page.fillSubnet(data, ''));
 }
+
+/**
+ * Lookup an IP subnet.
+ *
+ * This function looks up an IP subnet passed in the global query string and
+ * displays its information along with related objects.
+ */
+export function lookup_subnet()
+{
+  /* Evaluate the query and check, whether it's a valid subnet object. If not,
+   * this method can't handle the query and an error will be displayed. */
+  const q = query.global;
+  if (!(q instanceof Array && Query.isIP(q[0])))
+  {
+    Page.error('The given query string is not a valid subnet in CIDR format.');
+    return;
+  }
+
+  /* Process the query, fetch all data and fill the related data into the cards
+   * and tables at the page. */
+  Page.setTitle(q);
+  IPAM.fetchSubnet(q).then(data => {
+    Page.fillSubnet(data, '');
+    Page.drawGraph(
+      'utilization',
+      (data && 'utilized' in data) ? data.utilized : null);
+  });
+}

@@ -80,6 +80,10 @@ export class Query
 
     if (IpRange.isValid(q))
       return IpRange.process(q);
+
+    try { // Subnet has no isValid method
+      return ipaddr.parseCIDR(q);
+    } catch {}
   }
 
   /**

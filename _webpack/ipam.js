@@ -186,6 +186,23 @@ export class IPAM
   }
 
   /**
+   * Fetch an IP subnet object.
+   *
+   * This method searches the API for a specific subnet object and returns it.
+   *
+   *
+   * @param subnet The subnet to be fetched.
+   *
+   * @returns Promise to fetch the data.
+   */
+  static fetchSubnet(subnet)
+  {
+    return this.fetch(this.ipVersion(subnet[0]), 'subnet.json')
+      .then(response => response.find((item) => item.network == subnet))
+      .then(this.enrichSubnet);
+  }
+
+  /**
    * Fetch a subnet by one of its IPs.
    *
    * This method searches the API for a subnet that contains @p ip and returns

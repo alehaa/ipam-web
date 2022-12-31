@@ -9,6 +9,7 @@
 - id:   network
   name: Network
   icon: fa-cloud
+  link: lookup/subnet.html
 
 - id:   name
   name: Name
