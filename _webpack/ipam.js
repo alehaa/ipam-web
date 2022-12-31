@@ -92,7 +92,7 @@ export class IPAM
   static fetchIp(ip)
   {
     return this.fetch(this.ipVersion(ip), 'ip.json')
-      .then(response => response.find((item) => item.ip === ip.toString()));
+      .then(response => response.find((item) => item.ip == ip));
   }
 
   /**
