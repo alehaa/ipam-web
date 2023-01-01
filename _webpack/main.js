@@ -7,10 +7,10 @@
  * this source code.
  */
 
-import {IPAM}  from './ipam.js';
-import {Page}  from './page.js';
-import {Query} from './query.js';
-import {IpRange}  from './range';
+import {IPAM}    from './ipam';
+import {IpRange} from './range';
+import {Page}    from './page';
+import {Query}   from './query';
 
 
 // =====
