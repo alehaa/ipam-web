@@ -41,6 +41,42 @@ export class IPAM
   }
 
   /**
+   * Parse date fields in JSON object.
+   *
+   * This method converts designated date fields of a JSON @p item to 'Date'
+   * objects. As JSON itself doesn't support this datatype, this method allows
+   * dates to be handled in a better way for IPAM, e.g. for representation in
+   * the UI.
+   *
+   *
+   * @param item The item to be checked for parsable dates.
+   *
+   * @returns The @p item including parsed dates.
+   */
+  static parseDateFields(item)
+  {
+    const dateFields = [
+      'assigned',
+      'expires',
+    ];
+
+    /* Check the item keys for those containing datetime information. Values of
+     * matching keys will be converted to Date objects.
+     *
+     * NOTE: To simplify printing these objects, the toString method will be
+     *       redirected to toLocaleString, so the object doesn't need to be
+     *       evaluated twice for UI representation. */
+    Object.keys(item)
+      .filter(k => dateFields.includes(k))
+      .forEach(key => {
+        item[key] = new Date(Date.parse(item[key]));
+        item[key].toString = item[key].toLocaleString;
+      });
+
+    return item;
+  }
+
+  /**
    * Fetch data via API.
    *
    * This method fetches a specific @p file for objects of a given @p ipVersion
@@ -75,7 +111,12 @@ export class IPAM
 
       /* Parse the retrieved data to decode JSON as JavaScript object, which is
        * simple to handle instead. */
-      .then(response => response.json());
+      .then(response => response.json())
+
+      /* Parse fields containing date/time information, as these can't be
+       * represented in plain JSON. */
+      .then(response => response.map(this.parseDateFields))
+      ;
   }
 
   /**
