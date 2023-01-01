@@ -23,7 +23,11 @@
 <body>
   <nav class="navbar mb-md-5">
     <div class="container">
-      <a class="navbar-brand">IPAM</a>
+      <a href="{% link index.html %}" class="navbar-brand">IPAM</a>
+
+      {% if page.navbar.search == null %}
+        {% include search.html %}
+      {% endif %}
     </div>
   </nav>
 

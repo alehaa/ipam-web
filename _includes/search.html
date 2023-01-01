@@ -1,0 +1,20 @@
+{% comment %}
+  This file is part of IPAM Web.
+
+  Copyright (c) Alexander Haase <ahaase@alexhaase.de>
+
+  This project is licensed under the MIT License. For the full copyright and
+  license information, please view the LICENSE file that was distributed with
+  this source code.
+{% endcomment %}
+
+<form role="search" id="search">
+  <div class="input-group">
+    <input type="search" class="form-control {{ include.classes }}" name="query"
+           placeholder="Search" aria-label="Search">
+    <button class="btn btn-success" type="submit">
+      <i class="fa-regular fa-magnifying-glass"></i>
+      <span class="d-none d-md-inline">{{ include.label }}</span>
+    </button>
+  </div>
+</form>

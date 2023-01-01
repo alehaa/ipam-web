@@ -35,4 +35,10 @@
   .progress {
     --bs-progress-bg: #{$dark-progress-bg};
   }
+
+  .form-control, .form-control:focus {
+    background-color: #{$dark-card-cap-bg};
+    border: 1px solid #{$dark-card-cap-bg};
+    color:            #{$dark-body-color};
+  }
 }

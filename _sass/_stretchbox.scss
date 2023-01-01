@@ -1,0 +1,32 @@
+/* This file is part of IPAM Web.
+ *
+ * Copyright (c) Alexander Haase <ahaase@alexhaase.de>
+ *
+ * This project is licensed under the MIT License. For the full copyright and
+ * license information, please view the LICENSE file that was distributed with
+ * this source code.
+ */
+
+/**
+ * Size of the stretchbox.
+ *
+ * Content of the stretchbox should be visually centered on the page. Therefore,
+ * its size should be 100% viewport height excluding top and bottom margins for
+ * header / footer.
+ *
+ * To really center the content, the header size will be multiplied by two, to
+ * ensure the following stretchbox really will have its center in the center of
+ * the viewport.
+ *
+ * NOTE: This solution only works for pages with a larger header than footer, or
+ *       the strechbox will exceed its valid space and the page will have a
+ *       scrollbar even on almost empty pages.
+ */
+$stretchbox-size: 2 * (
+  ($navbar-brand-height + (2 * $navbar-padding-y))
++ (3 * $font-size-base));
+
+
+.stretchbox {
+  min-height: calc(100vh - #{$stretchbox-size});
+}

@@ -7,6 +7,9 @@
  * this source code.
  */
 
+import {Search}  from './search';
+
+
 /**
  * Page control class.
  *
@@ -41,6 +44,20 @@ export class Page
   }
 
   /**
+   * Generate a link for accessing a specific @p resource.
+   *
+   *
+   * @param url Base URL to be used.
+   * @param resource Resource to be passed as query parameter.
+   *
+   * @returns The URL to access the @p resource.
+   */
+  static toResourceUrl(url, resource)
+  {
+    return url + '?q=' + String(resource).replace(/ /g, '');
+  }
+
+  /**
    * Set the content of a given HTML element.
    *
    *
@@ -60,7 +77,7 @@ export class Page
     if ('link' in dom.dataset)
     {
       var a = document.createElement('a');
-      a.href = dom.dataset.link + '?q=' + String(value).replace(/ /g, '');
+      a.href = this.toResourceUrl(dom.dataset.link, value);
       a.innerHTML = value;
       dom.appendChild(a);
       return;
