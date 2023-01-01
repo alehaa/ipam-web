@@ -94,7 +94,7 @@ export function lookup_subnet()
   /* Evaluate the query and check, whether it's a valid subnet object. If not,
    * this method can't handle the query and an error will be displayed. */
   const q = query.global;
-  if (!(q instanceof Array && Query.isIP(q[0])))
+  if (!Query.isSubnet(q))
   {
     Page.error('The given query string is not a valid subnet in CIDR format.');
     return;

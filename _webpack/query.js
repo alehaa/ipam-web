@@ -98,4 +98,17 @@ export class Query
   {
     return (ip instanceof ipaddr.IPv4) || (ip instanceof ipaddr.IPv6);
   }
+
+  /**
+   * Check whether a query is an IP subnet or not.
+   *
+   *
+   * @param subnet The subnet to be checked.
+   *
+   * @returns True, if @p subnet is a valid IP subnet object, otherwise false.
+   */
+  static isSubnet(subnet)
+  {
+    return (subnet instanceof Array) && this.isIP(subnet[0]);
+  }
 }
