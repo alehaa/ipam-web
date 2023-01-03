@@ -58,6 +58,8 @@ export class IPAM
     const dateFields = [
       'assigned',
       'expires',
+      'received',
+      'changed',
     ];
 
     /* Check the item keys for those containing datetime information. Values of
@@ -261,5 +263,24 @@ export class IPAM
         (item) => ip.match(ipaddr.parseCIDR(item.network))
         ))
       .then(this.enrichSubnet);
+  }
+
+  /**
+   * Fetch an IP block by one of its IPs.
+   *
+   * This method searches the API for an IP block that contains @p ip and
+   * returns it.
+   *
+   *
+   * @param ip The IP to be searched an IP block for.
+   *
+   * @returns Promise to fetch the data.
+   */
+  static fetchBlockByIp(ip)
+  {
+    return this.fetch(this.ipVersion(ip), 'block.json')
+      .then(response => response.find(
+        (item) => ip.match(ipaddr.parseCIDR(item.network))
+        ));
   }
 }

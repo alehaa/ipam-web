@@ -109,4 +109,5 @@ export function lookup_subnet()
       'utilization',
       (data && 'utilized' in data) ? data.utilized : null);
   });
+  IPAM.fetchBlockByIp(q[0]).then(data => Page.fillCard('block', data));
 }
