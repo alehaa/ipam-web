@@ -1,0 +1,31 @@
+# This file is part of IPAM Web.
+#
+# Copyright (c) Alexander Haase <ahaase@alexhaase.de>
+#
+# This project is licensed under the MIT License. For the full copyright and
+# license information, please view the LICENSE file that was distributed with
+# this source code.
+
+# Global build pipeline.
+#
+# This pipeline builds the entire IPAM Web UI including all assets. Following
+# stages can use the published artifacts for adding custom content or it can be
+# used in another project.
+
+
+variables:
+  # A base URL (or path) can be defined, if the final project will be available
+  # in a subdirectory (e.g. GitLab Pages).
+  IPAM_BASE_URL: ''
+
+
+build:
+  stage: build
+  image: ${CI_DEPENDENCY_PROXY_GROUP_IMAGE_PREFIX}/jekyll/jekyll
+  script:
+    - yarn install
+    - yarn run webpack --env IPAM_BASE_URL="$IPAM_BASE_URL"
+    - jekyll build --destination public --baseurl "$IPAM_BASE_URL"
+  artifacts:
+    paths:
+    - public
