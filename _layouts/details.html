@@ -1,5 +1,5 @@
 ---
-layout: default
+layout: dynamic
 ---
 
 {% comment %}
@@ -34,10 +34,3 @@ layout: default
   {{ content }}
   </div>
 </div>
-
-<script>
-  window.addEventListener(
-    'DOMContentLoaded',
-    function() { {{ page.init }}(); },
-    false);
-</script>

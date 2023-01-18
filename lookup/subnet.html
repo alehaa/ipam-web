@@ -5,5 +5,18 @@ init: lookup_subnet
 
 <div class="row">
   {% include cards/subnet.html %}
+  {% include cards/block.html %}
   {% include cards/utilization.html %}
+</div>
+
+{% include list.html
+  id     = 'range'
+  title  = 'IP Ranges'
+  fields = 'range,managed,utilized'
+  widths = ',col-2,col-2'
+  margin = true
+%}
+
+<div class="text-center">
+  {% include cards/_lookup.html %}
 </div>

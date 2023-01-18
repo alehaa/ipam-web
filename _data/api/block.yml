@@ -6,42 +6,26 @@
 # license information, please view the LICENSE file that was distributed with
 # this source code.
 
-- id:   ip
-  name: IP
-  icon: fa-at
-  link: lookup/ip.html
+- id:   network
+  name: Network
+  icon: fa-cloud
+  link: lookup/block.html
 
-- id:   name
-  name: Name
-  icon: fa-info-circle
-
-- id:   mac
-  name: MAC
+- id:   rir
+  name: RIR
   icon: fa-globe
 
-- id:   type
-  name: Type
-  icon: fa-desktop
-
-- id:   asset
-  name: Asset
-  icon: fa-tag
-
-- id:   serial
-  name: Serial
-  icon: fa-fingerprint
-
-- id:   site
-  name: Site
-  icon: fa-house
-
-- id:   assigned
-  name: Assigned
+- id:   received
+  name: Received
   icon: fa-calendar-plus
 
-- id:   expires
-  name: Expires
-  icon: fa-calendar-minus
+- id:   changed
+  name: Last Assigned
+  icon: fa-calendar
+
+- id:   scope
+  name: Scope
+  icon: fa-folder
 
 - id:   owner
   name: Owner

@@ -178,7 +178,36 @@ export class Page
       const url = data.lookup_url.replace('%{ip}', ip);
       document.getElementById('ipam.ip.lookup').href = url;
       this.show('ip-lookup');
+
+      /* For the subnet page, special handling is required. The lookup button
+       * will be shown and the ranges table hidden instead. */
+      try {
+        this.hide('ipam.table.range');
+      } catch {}
     }
+  }
+
+  /**
+   * Set the utilization progress graph to a specific value.
+   *
+   * This method handles setting values of the utilization graph and all related
+   * attributes like color and aria value.
+   *
+   *
+   * @param dom The dom object of the progress bar.
+   * @param p Percentage to be set.
+   */
+  static setUtilization(dom, p)
+  {
+    /* Set percentage value. */
+    dom.style.width  = p + '%';
+    dom.ariaValueNow = p;
+
+    /* Colorize the graph according to the percentage value. Utilization under
+     * 75% gets green, under 90% yellow, above is red. */
+         if (p < 75) dom.classList.add('bg-success');
+    else if (p < 90) dom.classList.add('bg-warning');
+    else             dom.classList.add('bg-danger');
   }
 
   /**
@@ -199,14 +228,7 @@ export class Page
      * indicate data is not being loaded / processed anymore. */
     if (typeof p == 'number') {
       const dom = document.getElementById('ipam.' + card + '.graph');
-      dom.style.width  = p + '%';
-      dom.ariaValueNow = p;
-
-      /* Colorize the graph according to the percentage value. Utilization under
-       * 75% gets green, under 90% yellow, above is red. */
-           if (p < 75) dom.classList.add('bg-success');
-      else if (p < 90) dom.classList.add('bg-warning');
-      else             dom.classList.add('bg-danger');
+      this.setUtilization(dom, p);
 
       /* Show the div containing the data previously set, so its finally visible
        * to the user. */
@@ -217,5 +239,66 @@ export class Page
      * will be done, even if no data could be found, to indicate this status to
      * the user and doesn't wait indefinitely. */
     this.hide('card-' + card + '-spinner');
+  }
+
+  /**
+   * Add rows to a given table.
+   *
+   * This method provisions data lists (e.g. objects in an IP range) with rows
+   * by a predefined structure. Cells and their related data fields can be
+   * defined in HTML, so this method simply maps @p data to the existing table.
+   *
+   *
+   * @param table Id of the table to be filled.
+   * @param data Raw API data to be filled.
+   */
+  static addTableRows(table, data)
+  {
+    const dom = document.getElementById('ipam.table.' + table);
+
+    /* First, get all existing cells of the table header, which include the
+     * related data field to be filled in this column. As the data structure is
+     * an array, there's a mapping between cell ID and its value. */
+    const fields = Array
+        .from(dom.rows[0].cells)
+        .map(e => e.dataset.field);
+
+    /* Iterate over the data array and add a new row foreach item. Rows will be
+     * filled according to the fields gathered before. */
+    data.forEach(item => {
+      const r = dom.tBodies[0].insertRow(-1);
+      fields.forEach((field, index) => {
+        const c = r.insertCell(index);
+
+        /* If the field describes utilization data, render a little graph
+         * indicating its utilization. */
+        if (field == 'utilized' && field in item)
+        {
+          const bar = document.createElement('div');
+          bar.classList.add('progress-bar');
+          bar.ariaValueMin = 0;
+          bar.ariaValueMax = 100;
+          this.setUtilization(bar, item[field]);
+
+          const pgr = document.createElement('div');
+          pgr.classList.add('progress');
+          pgr.style.minWidth = '5vw';
+          pgr.appendChild(bar);
+
+          c.appendChild(pgr);
+          c.classList.add('align-middle');
+          return;
+        }
+
+        c.innerHTML = item[field] ?? '';
+      });
+
+      /* As each row of the table should link to the related resource, an URL
+       * will be generated and its onclick event will be set for redirecting. */
+      let lnk = this.toResourceUrl(
+        dom.dataset.link,
+        item[dom.dataset.linkField]);
+      r.onclick = function() { document.location = lnk; }
+    });
   }
 }

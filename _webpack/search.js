@@ -34,11 +34,11 @@ export class Search
     /* First, handle all types of query objects, that have a specific type and
      * therefore a lookup page. */
     if (Query.isIP(q))
-      return '/lookup/ip.html';
+      return IPAM_BASE_URL + '/lookup/ip.html';
     if (q instanceof IpRange)
-      return '/lookup/range.html';
+      return IPAM_BASE_URL + '/lookup/range.html';
     if (Query.isSubnet(q))
-      return '/lookup/subnet.html';
+      return IPAM_BASE_URL + '/lookup/subnet.html';
   }
 
   /**

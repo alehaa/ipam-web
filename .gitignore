@@ -13,6 +13,9 @@
 /node_modules
 /*.lock
 
+# Ignore assets built by webpack.
+/assets/*.js
+
 # Ignore API data, as it will be generated dynamically and is not part of the
 # source code maintained.
 /api

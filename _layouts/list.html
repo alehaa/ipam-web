@@ -1,3 +1,7 @@
+---
+layout: dynamic
+---
+
 {% comment %}
   This file is part of IPAM Web.
 
@@ -8,10 +12,10 @@
   this source code.
 {% endcomment %}
 
-<div class="card-body d-none" id="ip-lookup">
-  Assignments of this subnet are managed externally.
-
-  <div class="text-center mt-2">
-    <a class="btn btn-outline-success" id="ipam.ip.lookup" target="_blank">Lookup IP</a>
+<div class="container">
+  <div class="row">
+    <div class="col">
+      {{ content }}
+    </div>
   </div>
 </div>

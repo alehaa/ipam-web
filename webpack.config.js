@@ -8,17 +8,17 @@
  */
 
 const path = require('path');
+const webpack = require('webpack');
 
 
-module.exports = {
+module.exports = (env) => { return {
   entry: {
     main: path.join(__dirname, '_webpack', 'main.js'),
   },
   output: {
-    /* Output files will be put directly into jekyll's destination path. This is
-     * useful for development, to not trigger a costly jekyll rebuild on
-     * JavaScript changes. */
-    path: path.resolve(__dirname, '_site', 'assets'),
+    /* Output files will be put into jekyll's asset directory. Putting these
+     * into the final destination path will be handled by jekyll afterwards. */
+    path: path.resolve(__dirname, 'assets'),
     filename: '[name].js',
 
     /* Use 'window' as default library target, so all exported functions will be
@@ -26,7 +26,15 @@ module.exports = {
     libraryTarget: 'window',
   },
 
+  plugins: [
+    /* Define variables, that will be substituted in code. This is required e.g.
+     * for defining a dynamic base URL on build-time. */
+    new webpack.DefinePlugin({
+      IPAM_BASE_URL: JSON.stringify(env.IPAM_BASE_URL ?? ''),
+    }),
+  ],
+
   /* Always use 'production' as build mode, so the application can be tested
    * with the final optimized code. */
   mode: 'production',
-};
+}};
