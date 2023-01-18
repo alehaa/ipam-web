@@ -175,6 +175,12 @@ export class Page
       const url = data.lookup_url.replace('%{ip}', ip);
       document.getElementById('ipam.ip.lookup').href = url;
       this.show('ip-lookup');
+
+      /* For the subnet page, special handling is required. The lookup button
+       * will be shown and the ranges table hidden instead. */
+      try {
+        this.hide('ipam.table.range');
+      } catch {}
     }
   }
 
