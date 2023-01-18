@@ -15,10 +15,9 @@ module.exports = {
     main: path.join(__dirname, '_webpack', 'main.js'),
   },
   output: {
-    /* Output files will be put directly into jekyll's destination path. This is
-     * useful for development, to not trigger a costly jekyll rebuild on
-     * JavaScript changes. */
-    path: path.resolve(__dirname, '_site', 'assets'),
+    /* Output files will be put into jekyll's asset directory. Putting these
+     * into the final destination path will be handled by jekyll afterwards. */
+    path: path.resolve(__dirname, 'assets'),
     filename: '[name].js',
 
     /* Use 'window' as default library target, so all exported functions will be
