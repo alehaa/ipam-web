@@ -101,7 +101,7 @@ export class IPAM
    */
   static fetch(ipVersion, file)
   {
-    return fetch(['', 'api', ipVersion, file].join('/'))
+    return fetch([IPAM_BASE_URL, 'api', ipVersion, file].join('/'))
       /* If the API returns an error 404, don't throw an error, but simply use
        * an empty array instead, to mimic an empty collection. As the following
        * functions will parse the readonly response body as JSON, this simply
