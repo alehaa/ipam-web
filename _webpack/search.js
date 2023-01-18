@@ -34,11 +34,11 @@ export class Search
     /* First, handle all types of query objects, that have a specific type and
      * therefore a lookup page. */
     if (Query.isIP(q))
-      return IPAM_BASE_URL + '/lookup/ip.html';
+      return '/lookup/ip.html';
     if (q instanceof IpRange)
-      return IPAM_BASE_URL + '/lookup/range.html';
+      return '/lookup/range.html';
     if (Query.isSubnet(q))
-      return IPAM_BASE_URL + '/lookup/subnet.html';
+      return '/lookup/subnet.html';
   }
 
   /**
@@ -60,7 +60,9 @@ export class Search
      * representing the query at best (i.e. the lookup pages). */
     const data = new FormData(event.target);
     const query = Query.parse(data.get('query'));
-    window.location = Page.toResourceUrl(this.getResourceTypeUrl(query), query);
+    window.location = Page.toResourceUrl(
+      IPAM_BASE_URL + this.getResourceTypeUrl(query),
+      query);
   }
 }
 
