@@ -13,8 +13,10 @@
     <h1 class="fw-lighter">{{ include.title }}</h1>
     <hr/>
 
+    {% assign lnk = site.data.api[ include.id ] | sort: 'link' | last %}
     <table class="table table-sm table-hover" id="ipam.table.{{ include.id }}"
-           data-link="{% link lookup/ip.html %}" data-link-field="ip">
+           data-link="{% link {{ lnk.link }} %}"
+           data-link-field="{{ lnk.id }}">
       <thead>
         {% assign fields = include.fields | split: ',' %}
         {% for field in fields %}
