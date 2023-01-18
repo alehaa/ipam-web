@@ -19,8 +19,9 @@
            data-link-field="{{ lnk.id }}">
       <thead>
         {% assign fields = include.fields | split: ',' %}
+        {% assign widths = include.widths | split: ',' %}
         {% for field in fields %}
-          <th data-field="{{ field }}">
+          <th data-field="{{ field }}" class="{{ widths[ forloop.index0 ] }}">
             {{ site.data.api[ include.id ] | find: 'id', field | map: 'name' }}
           </th>
         {% endfor %}
