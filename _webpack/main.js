@@ -111,4 +111,5 @@ export function lookup_subnet()
       (data && 'utilized' in data) ? data.utilized : null);
   });
   IPAM.fetchBlockByIp(q[0]).then(data => Page.fillCard('block', data));
+  IPAM.fetchRangeOfSubnet(q).then(data => Page.addTableRows('range', data));
 }

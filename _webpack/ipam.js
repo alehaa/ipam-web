@@ -223,6 +223,25 @@ export class IPAM
   }
 
   /**
+   * Fetch all IP ranges for a given subnet.
+   *
+   * This method searches for all IP ranges, that are in a given IP @p subnet.
+   *
+   *
+   * @param subnet The subnet ranges should be fetched for.
+   *
+   * @returns Promise to fetch the data.
+   */
+  static fetchRangeOfSubnet(subnet)
+  {
+    return this.fetch(this.ipVersion(subnet[0]), 'range.json')
+      .then(response => response.filter((item) => {
+        return ipaddr.parse(item.ip_first).match(subnet);
+      }))
+      .then(response => response.map(this.enrichRange));
+  }
+
+  /**
    * Enrich a subnet with additional data.
    *
    * This method adds metadata to @p data composed from other fields of an

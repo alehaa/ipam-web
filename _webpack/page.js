@@ -179,6 +179,29 @@ export class Page
   }
 
   /**
+   * Set the utilization progress graph to a specific value.
+   *
+   * This method handles setting values of the utilization graph and all related
+   * attributes like color and aria value.
+   *
+   *
+   * @param dom The dom object of the progress bar.
+   * @param p Percentage to be set.
+   */
+  static setUtilization(dom, p)
+  {
+    /* Set percentage value. */
+    dom.style.width  = p + '%';
+    dom.ariaValueNow = p;
+
+    /* Colorize the graph according to the percentage value. Utilization under
+     * 75% gets green, under 90% yellow, above is red. */
+         if (p < 75) dom.classList.add('bg-success');
+    else if (p < 90) dom.classList.add('bg-warning');
+    else             dom.classList.add('bg-danger');
+  }
+
+  /**
    * Draw a percentage graph.
    *
    * This method draws a pretty simple percentage graph (as progress bar), e.g.
@@ -196,14 +219,7 @@ export class Page
      * indicate data is not being loaded / processed anymore. */
     if (typeof p == 'number') {
       const dom = document.getElementById('ipam.' + card + '.graph');
-      dom.style.width  = p + '%';
-      dom.ariaValueNow = p;
-
-      /* Colorize the graph according to the percentage value. Utilization under
-       * 75% gets green, under 90% yellow, above is red. */
-           if (p < 75) dom.classList.add('bg-success');
-      else if (p < 90) dom.classList.add('bg-warning');
-      else             dom.classList.add('bg-danger');
+      this.setUtilization(dom, p);
 
       /* Show the div containing the data previously set, so its finally visible
        * to the user. */
@@ -243,7 +259,29 @@ export class Page
     data.forEach(item => {
       const r = dom.tBodies[0].insertRow(-1);
       fields.forEach((field, index) => {
-        r.insertCell(index).innerHTML = item[field] ?? '';
+        const c = r.insertCell(index);
+
+        /* If the field describes utilization data, render a little graph
+         * indicating its utilization. */
+        if (field == 'utilized' && field in item)
+        {
+          const bar = document.createElement('div');
+          bar.classList.add('progress-bar');
+          bar.ariaValueMin = 0;
+          bar.ariaValueMax = 100;
+          this.setUtilization(bar, item[field]);
+
+          const pgr = document.createElement('div');
+          pgr.classList.add('progress');
+          pgr.style.minWidth = '5vw';
+          pgr.appendChild(bar);
+
+          c.appendChild(pgr);
+          c.classList.add('align-middle');
+          return;
+        }
+
+        c.innerHTML = item[field] ?? '';
       });
 
       /* As each row of the table should link to the related resource, an URL
