@@ -9,6 +9,7 @@
 - id:   network
   name: Network
   icon: fa-cloud
+  link: lookup/block.html
 
 - id:   rir
   name: RIR

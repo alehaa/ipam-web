@@ -341,4 +341,19 @@ export class IPAM
         (item) => ip.match(ipaddr.parseCIDR(item.network))
         ));
   }
+
+  /**
+   * Get all IP blocks (IPv4 & IPv6).
+   *
+   *
+   * @returns Promise to fetch the data.
+   */
+  static fetchBlockAll()
+  {
+    return Promise.all([
+        this.fetch('v4', 'block.json'),
+        this.fetch('v6', 'block.json'),
+      ])
+      .then(response => response.flat());
+  }
 }

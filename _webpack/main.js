@@ -141,3 +141,14 @@ export function lookup_block()
   Page.setTitle(q);
   IPAM.fetchSubnetOfBlock(q).then(data => Page.addTableRows('subnet', data));
 }
+
+/**
+ * Generate a list of all IP blocks.
+ *
+ * As IP blocks don't have a parent object, a list of them will be generated for
+ * navigation.
+ */
+export function list_blocks()
+{
+  IPAM.fetchBlockAll().then(data => Page.addTableRows('block', data));
+}

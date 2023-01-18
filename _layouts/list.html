@@ -15,22 +15,7 @@ layout: dynamic
 <div class="container">
   <div class="row">
     <div class="col">
-      <div id="title" class="h1 fw-lighter">
-        <div class="spinner-border" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
-      </div>
-      <hr/>
+      {{ content }}
     </div>
-  </div>
-
-  <div class="row d-none" id="error">
-    <div class="col">
-      <div class="alert alert-warning" role="alert" id="error.message"></div>
-    </div>
-  </div>
-
-  <div id="content">
-  {{ content }}
   </div>
 </div>

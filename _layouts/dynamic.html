@@ -1,0 +1,22 @@
+---
+layout: default
+---
+
+{% comment %}
+  This file is part of IPAM Web.
+
+  Copyright (c) Alexander Haase <ahaase@alexhaase.de>
+
+  This project is licensed under the MIT License. For the full copyright and
+  license information, please view the LICENSE file that was distributed with
+  this source code.
+{% endcomment %}
+
+{{ content }}
+
+<script>
+  window.addEventListener(
+    'DOMContentLoaded',
+    function() { {{ page.init }}(); },
+    false);
+</script>
