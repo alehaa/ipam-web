@@ -1,0 +1,11 @@
+---
+layout: details
+init: lookup_block
+---
+
+{% include list.html
+  id     = 'subnet'
+  fields = 'network,name,site,vlan,utilized'
+  widths = 'col-2,,col-2,col-1,col-2'
+  margin = true
+%}

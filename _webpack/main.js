@@ -113,3 +113,31 @@ export function lookup_subnet()
   IPAM.fetchBlockByIp(q[0]).then(data => Page.fillCard('block', data));
   IPAM.fetchRangeOfSubnet(q).then(data => Page.addTableRows('range', data));
 }
+
+/**
+ * Lookup an IP block.
+ *
+ * This function is nearly identical to @function lookup_subnet, but will look
+ * up an IP block instead of a subnet. It uses the block passed in the global
+ * query string and displays related objects.
+ *
+ * @note The page being rendered will not have any information about the block
+ *       itself (like assignment date), as there's not enough information to
+ *       display why it would be a waste of space.
+ */
+export function lookup_block()
+{
+  /* Evaluate the query and check, whether it's a valid IP block object. If not,
+   * this method can't handle the query and an error will be displayed. */
+  const q = query.global;
+  if (!(q instanceof Array && Query.isIP(q[0])))
+  {
+    Page.error('The given query string is not a valid subnet in CIDR format.');
+    return;
+  }
+
+  /* Process the query, fetch all data and fill the related data into the cards
+   * and tables at the page. */
+  Page.setTitle(q);
+  IPAM.fetchSubnetOfBlock(q).then(data => Page.addTableRows('subnet', data));
+}

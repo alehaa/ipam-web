@@ -305,6 +305,25 @@ export class IPAM
   }
 
   /**
+   * Fetch all subnets for a given IP block.
+   *
+   * This method searches for all subnets, that are in a given IP @p block.
+   *
+   *
+   * @param block The block subnets should be fetched for.
+   *
+   * @returns Promise to fetch the data.
+   */
+  static fetchSubnetOfBlock(block)
+  {
+    return this.fetch(this.ipVersion(block[0]), 'subnet.json')
+      .then(response => response.filter((item) => {
+        return ipaddr.parseCIDR(item.network)[0].match(block);
+      }))
+      .then(response => response.map(this.enrichSubnet));
+  }
+
+  /**
    * Fetch an IP block by one of its IPs.
    *
    * This method searches the API for an IP block that contains @p ip and
