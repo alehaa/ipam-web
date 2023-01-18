@@ -81,6 +81,7 @@ export function lookup_range()
       (data && 'utilized' in data) ? data.utilized : null);
   });
   IPAM.fetchSubnetByIp(q.first).then(data => Page.fillSubnet(data, ''));
+  IPAM.fetchIpOfRange(q).then(data => Page.addTableRows('ip', data));
 }
 
 /**

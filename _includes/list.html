@@ -1,0 +1,30 @@
+{% comment %}
+  This file is part of IPAM Web.
+
+  Copyright (c) Alexander Haase <ahaase@alexhaase.de>
+
+  This project is licensed under the MIT License. For the full copyright and
+  license information, please view the LICENSE file that was distributed with
+  this source code.
+{% endcomment %}
+
+<div class="row {% if include.margin %}mt-4{% endif %}">
+  <div class="col">
+    <h1 class="fw-lighter">{{ include.title }}</h1>
+    <hr/>
+
+    <table class="table table-sm table-hover" id="ipam.table.{{ include.id }}"
+           data-link="{% link lookup/ip.html %}" data-link-field="ip">
+      <thead>
+        {% assign fields = include.fields | split: ',' %}
+        {% for field in fields %}
+          <th data-field="{{ field }}">
+            {{ site.data.api[ include.id ] | find: 'id', field | map: 'name' }}
+          </th>
+        {% endfor %}
+      </thead>
+
+      <tbody style="cursor: pointer"></tbody>
+    </table>
+  </div>
+</div>

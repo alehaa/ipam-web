@@ -41,6 +41,20 @@ export class Page
   }
 
   /**
+   * Generate a link for a given query @p value.
+   *
+   *
+   * @param link The base link for the resource.
+   * @param value Query value to be accessed.
+   *
+   * @returns The final and callable link.
+   */
+  static toLink(link, value)
+  {
+    return link + '?q=' + String(value).replace(/ /g, '');
+  }
+
+  /**
    * Set the content of a given HTML element.
    *
    *
@@ -60,7 +74,7 @@ export class Page
     if ('link' in dom.dataset)
     {
       var a = document.createElement('a');
-      a.href = dom.dataset.link + '?q=' + String(value).replace(/ /g, '');
+      a.href = this.toLink(dom.dataset.link, value);
       a.innerHTML = value;
       dom.appendChild(a);
       return;
@@ -200,5 +214,42 @@ export class Page
      * will be done, even if no data could be found, to indicate this status to
      * the user and doesn't wait indefinitely. */
     this.hide('card-' + card + '-spinner');
+  }
+
+  /**
+   * Add rows to a given table.
+   *
+   * This method provisions data lists (e.g. objects in an IP range) with rows
+   * by a predefined structure. Cells and their related data fields can be
+   * defined in HTML, so this method simply maps @p data to the existing table.
+   *
+   *
+   * @param table Id of the table to be filled.
+   * @param data Raw API data to be filled.
+   */
+  static addTableRows(table, data)
+  {
+    const dom = document.getElementById('ipam.table.' + table);
+
+    /* First, get all existing cells of the table header, which include the
+     * related data field to be filled in this column. As the data structure is
+     * an array, there's a mapping between cell ID and its value. */
+    const fields = Array
+        .from(dom.rows[0].cells)
+        .map(e => e.dataset.field);
+
+    /* Iterate over the data array and add a new row foreach item. Rows will be
+     * filled according to the fields gathered before. */
+    data.forEach(item => {
+      const r = dom.tBodies[0].insertRow(-1);
+      fields.forEach((field, index) => {
+        r.insertCell(index).innerHTML = item[field] ?? '';
+      });
+
+      /* As each row of the table should link to the related resource, an URL
+       * will be generated and its onclick event will be set for redirecting. */
+      let lnk = this.toLink(dom.dataset.link, item[dom.dataset.linkField]);
+      r.onclick = function() { document.location = lnk; }
+    });
   }
 }

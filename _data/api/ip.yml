@@ -6,7 +6,10 @@
 # license information, please view the LICENSE file that was distributed with
 # this source code.
 
-# ID field: ip
+- id:   ip
+  name: IP
+  icon: fa-at
+  link: lookup/ip.html
 
 - id:   name
   name: Name

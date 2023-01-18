@@ -139,6 +139,26 @@ export class IPAM
   }
 
   /**
+   * Get all IPs of a specific IP range.
+   *
+   * This method gets all IPs, that match a specific IP range.
+   *
+   * @note Subnets can be used as well for @p range, as they fit the same API.
+   *
+   *
+   * @param range The range IPs should be looked for.
+   *
+   * @returns Promise to fetch the data.
+   */
+  static fetchIpOfRange(range)
+  {
+    return this.fetch(this.ipVersion(range.first), 'ip.json')
+      .then(response => response.filter((item) => {
+        return range.match(ipaddr.process(item.ip));
+      }));
+  }
+
+  /**
    * Enrich an IP range with additional data.
    *
    * This method adds metadata to @p data composed from other fields of an
