@@ -41,6 +41,29 @@ export class IPAM
   }
 
   /**
+   * Sanitize object values.
+   *
+   * This method checks string values of objects for characters to be escaped
+   * before placing them in an HTML DOM. This should prevent XSS.
+   *
+   *
+   * @param item The item to be sanitized.
+   *
+   * @returns The sanitized object.
+   */
+  static sanitizeValues(item)
+  {
+    Object.keys(item).forEach((key) => {
+      if (typeof item[key] === 'string')
+        item[key] = item[key]
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/"/g, '&quot;');
+    })
+    return item;
+  }
+
+  /**
    * Parse date fields in JSON object.
    *
    * This method converts designated date fields of a JSON @p item to 'Date'
@@ -114,6 +137,12 @@ export class IPAM
       /* Parse the retrieved data to decode JSON as JavaScript object, which is
        * simple to handle instead. */
       .then(response => response.json())
+
+      /* Sanitize each and every item in collections gathered via API to verify
+       * no XSS is possible. Otherwise, third party users could place XSS code
+       * in text fields (e.g. description), which would be run in administrators
+       * browsers. */
+      .then(response => response.map(this.sanitizeValues))
 
       /* Parse fields containing date/time information, as these can't be
        * represented in plain JSON. */
