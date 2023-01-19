@@ -122,6 +122,31 @@ export class IPAM
   }
 
   /**
+   * Fetch an entire collection (IPv4 & IPv6).
+   *
+   *
+   * @param file The collection file to be fetched.
+   * @param version Optional IP version to limit collection.
+   *
+   * @returns Promise to fetch the collection.
+   */
+  static fetchCollection(file, version = null)
+  {
+    /* If a version has been specified, just get the collection for this IP
+     * version and return the promise. */
+    if (version)
+      return this.fetch(version, file);
+
+    /* Otherwise, obtain the collections of all IP versions and concatenate the
+     * data to a single flat array. */
+    return Promise.all([
+      this.fetch('v4', file),
+      this.fetch('v6', file),
+    ])
+    .then(response => response.flat());
+  }
+
+  /**
    * Fetch an IP address object.
    *
    * This method searches the API for a specific IP address object and returns
@@ -323,6 +348,22 @@ export class IPAM
       .then(response => response.map(this.enrichSubnet));
   }
 
+
+
+
+  /**
+   * Get all IP blocks (IPv4 & IPv6).
+   *
+   *
+   * @param version Optional IP version to limit collection.
+   *
+   * @returns Promise to fetch the data.
+   */
+  static fetchBlockAll(version=null)
+  {
+    return this.fetchCollection('block.json', version);
+  }
+
   /**
    * Fetch an IP block by one of its IPs.
    *
@@ -336,24 +377,9 @@ export class IPAM
    */
   static fetchBlockByIp(ip)
   {
-    return this.fetch(this.ipVersion(ip), 'block.json')
+    return this.fetchBlockAll(this.ipVersion(ip))
       .then(response => response.find(
         (item) => ip.match(ipaddr.parseCIDR(item.network))
         ));
-  }
-
-  /**
-   * Get all IP blocks (IPv4 & IPv6).
-   *
-   *
-   * @returns Promise to fetch the data.
-   */
-  static fetchBlockAll()
-  {
-    return Promise.all([
-        this.fetch('v4', 'block.json'),
-        this.fetch('v6', 'block.json'),
-      ])
-      .then(response => response.flat());
   }
 }
