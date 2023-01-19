@@ -81,7 +81,7 @@ export class Search
   static toSearchData(type)
   {
     return (data) => {
-      data['type'] = type;
+      data['_'] = type;
       return data;
     };
   }
@@ -100,6 +100,11 @@ export class Search
   static toSearchResult(data)
   {
     const typeMap = {
+      'ip': {
+        'title': 'IP',
+        'index': 'ip',
+        'link':  '/lookup/ip.html',
+        },
       'block': {
         'title': 'Block',
         'index': 'network',
@@ -109,7 +114,7 @@ export class Search
 
     /* Map the search result according to the mapping defined above. Attributes
      * will be processed, if necessary. */
-    const type = typeMap[data['type']]
+    const type = typeMap[data['_']]
     const name = data[type.index]
     return {
       'type': type.title,
@@ -153,6 +158,7 @@ export class Search
        * searched. Especially the type of data will be added for reference at
        * display time. */
       .all([
+        IPAM.fetchIpAll().then(   r => r.map(this.toSearchData('ip'))),
         IPAM.fetchBlockAll().then(r => r.map(this.toSearchData('block'))),
       ])
       .then(response => response.flat())
@@ -162,6 +168,11 @@ export class Search
        * printed later. */
       .then(response => response.map((data) => {
           data['res'] = [
+            match(data.name),
+            match(data.type),
+            match(data.asset),
+            match(data.serial),
+            match(data.site),
             match(data.scope),
             match(data.owner),
             match(data.description),

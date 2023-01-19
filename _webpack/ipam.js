@@ -158,6 +158,19 @@ export class IPAM
   // #### ##
 
   /**
+   * Get the IP collection.
+   *
+   *
+   * @param version Optional IP version to limit collection.
+   *
+   * @returns Promise to fetch the data.
+   */
+  static fetchIpAll(version = null)
+  {
+    return this.fetchCollection('ip.json', version);
+  }
+
+  /**
    * Fetch an IP address object.
    *
    * This method searches the API for a specific IP address object and returns
@@ -170,7 +183,7 @@ export class IPAM
    */
   static fetchIp(ip)
   {
-    return this.fetch(this.ipVersion(ip), 'ip.json')
+    return this.fetchIpAll(this.ipVersion(ip))
       .then(response => response.find((item) => item.ip == ip));
   }
 
@@ -188,7 +201,7 @@ export class IPAM
    */
   static fetchIpOfRange(range)
   {
-    return this.fetch(this.ipVersion(range.first), 'ip.json')
+    return this.fetchIpAll(this.ipVersion(range.first))
       .then(response => response.filter((item) => {
         return range.match(ipaddr.process(item.ip));
       }));
@@ -393,7 +406,7 @@ export class IPAM
   // ########  ########  #######   ######  ##    ##
 
   /**
-   * Get all IP blocks (IPv4 & IPv6).
+   * Get the IP block collection.
    *
    *
    * @param version Optional IP version to limit collection.
