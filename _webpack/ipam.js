@@ -239,6 +239,20 @@ export class IPAM
   }
 
   /**
+   * Get the IP range collection.
+   *
+   *
+   * @param version Optional IP version to limit collection.
+   *
+   * @returns Promise to fetch the data.
+   */
+  static fetchRangeAll(version = null)
+  {
+    return this.fetchCollection('range.json', version)
+      .then(response => response.map(this.enrichRange));
+  }
+
+  /**
    * Fetch an IP range object.
    *
    * This method searches the API for a specific IP range object and returns it.
@@ -250,12 +264,8 @@ export class IPAM
    */
   static fetchRange(range)
   {
-    return this.fetch(this.ipVersion(range.first), 'range.json')
-      .then(response => response.find(
-        (item) => {
-          return (item.ip_first == range.first) && (item.ip_last == range.last);
-        }))
-      .then(this.enrichRange);
+    return this.fetchRangeAll(this.ipVersion(range.first))
+      .then(response => response.find((item) => range.equals(item.range)));
   }
 
   /**
@@ -271,15 +281,8 @@ export class IPAM
    */
   static fetchRangeByIp(ip)
   {
-    return this.fetch(this.ipVersion(ip), 'range.json')
-      .then(response => response.find(
-        (item) => {
-          let range = new IpRange(
-            ipaddr.parse(item.ip_first),
-            ipaddr.parse(item.ip_last));
-          return range.match(ip);
-        }))
-      .then(this.enrichRange);
+    return this.fetchRangeAll(this.ipVersion(ip))
+      .then(response => response.find((item) => item.range.match(ip)));
   }
 
   /**
@@ -294,11 +297,8 @@ export class IPAM
    */
   static fetchRangeOfSubnet(subnet)
   {
-    return this.fetch(this.ipVersion(subnet[0]), 'range.json')
-      .then(response => response.filter((item) => {
-        return ipaddr.parse(item.ip_first).match(subnet);
-      }))
-      .then(response => response.map(this.enrichRange));
+    return this.fetchRangeAll(this.ipVersion(subnet[0]))
+      .then(response => response.filter((i) => i.range.first.match(subnet)));
   }
 
 

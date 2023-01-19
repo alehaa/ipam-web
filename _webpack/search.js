@@ -105,6 +105,11 @@ export class Search
         'index': 'ip',
         'link':  '/lookup/ip.html',
         },
+      'range': {
+        'title': 'IP range',
+        'index': 'range',
+        'link':  '/lookup/range.html',
+        },
       'block': {
         'title': 'Block',
         'index': 'network',
@@ -158,8 +163,9 @@ export class Search
        * searched. Especially the type of data will be added for reference at
        * display time. */
       .all([
-        IPAM.fetchIpAll().then(   r => r.map(this.toSearchData('ip'))),
-        IPAM.fetchBlockAll().then(r => r.map(this.toSearchData('block'))),
+        IPAM.fetchIpAll().then(    r => r.map(this.toSearchData('ip'))),
+        IPAM.fetchRangeAll().then( r => r.map(this.toSearchData('range'))),
+        IPAM.fetchBlockAll().then( r => r.map(this.toSearchData('block'))),
       ])
       .then(response => response.flat())
 

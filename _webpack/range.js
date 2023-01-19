@@ -107,6 +107,23 @@ export class IpRange
   }
 
   /**
+   * Compare two IP ranges.
+   *
+   *
+   * @param other The IP range compared to this one.
+   *
+   * @returns Whether both IP ranges are equal or not.
+   */
+  equals(other)
+  {
+    return (
+      ('first' in other && 'last' in other)
+      && (String(this.first) == String(other.first))
+      && (String(this.last)  == String(other.last))
+      );
+  }
+
+  /**
    * Check if an IP matches the IP range.
    *
    *
