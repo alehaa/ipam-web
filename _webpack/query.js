@@ -8,6 +8,7 @@
  */
 
 import ipaddr from 'ipaddr.js';
+import { MacAddress } from './mac';
 import { IpRange } from './range';
 
 
@@ -70,13 +71,16 @@ export class Query
    */
   static parse(q)
   {
-    /* The query can have these types of data: IP, IP Range, IP subnet, integer
-     * (VLAN ID) or string. As the complex datatypes will be represented by
+    /* The query can have these types of data: IP, IP Range, IP subnet, MAC
+     * address or string. As the complex datatypes will be represented by
      * objects, first check these and convert the query into them, if validation
      * did pass. */
 
     if (ipaddr.isValid(q))
       return ipaddr.process(q);
+
+    if (MacAddress.isValid(q))
+      return MacAddress.process(q);
 
     if (IpRange.isValid(q))
       return IpRange.process(q);

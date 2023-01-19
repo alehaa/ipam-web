@@ -156,8 +156,9 @@ export class Search
       if (v)
       {
         const expr = new RegExp(query, 'i');
-        return String(v).match(expr) ?
-          v.replace(expr, '<span class="bg-warning text-dark">$&</span>')
+        const val = String(v);
+        return val.match(expr) ?
+          val.replace(expr, '<span class="bg-warning text-dark">$&</span>')
           : null;
       }
     }
@@ -180,6 +181,7 @@ export class Search
       .then(response => response.map((data) => {
           data['res'] = [
             match(data.name),
+            match(data.mac),
             match(data.type),
             match(data.asset),
             match(data.serial),

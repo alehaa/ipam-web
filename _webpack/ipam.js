@@ -9,6 +9,7 @@
 
 import ipaddr from 'ipaddr.js';
 import { IpRange } from './range';
+import { MacAddress } from './mac';
 
 
 /**
@@ -187,6 +188,27 @@ export class IPAM
   // #### ##
 
   /**
+   * Enrich an IP address with additional data.
+   *
+   * This method adds metadata to @p data composed from other fields of an
+   * existing IP address.
+   *
+   *
+   * @param data Data to be enriched.
+   *
+   * @returns Enriched dataset.
+   */
+  static enrichIp(data)
+  {
+    if (data)
+    {
+      if ('mac' in data)
+        data['mac'] = MacAddress.process(data['mac']);
+    }
+    return data;
+  }
+
+  /**
    * Get the IP collection.
    *
    *
@@ -196,7 +218,8 @@ export class IPAM
    */
   static fetchIpAll(version = null)
   {
-    return this.fetchCollection('ip.json', version);
+    return this.fetchCollection('ip.json', version)
+      .then(response => response.map(this.enrichIp));
   }
 
   /**
