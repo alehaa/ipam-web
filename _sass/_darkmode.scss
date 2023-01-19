@@ -25,11 +25,16 @@
 
   .navbar {
     --bs-navbar-brand-color: #{$dark-body-color};
+    --bs-navbar-brand-hover-color: #{$dark-body-color};
   }
 
   .card {
     --bs-card-bg:     #{$dark-card-bg};
     --bs-card-cap-bg: #{$dark-card-cap-bg};
+  }
+
+  .table {
+    border-color: rgba($white, 0.1);;
   }
 
   .progress {

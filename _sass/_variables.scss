@@ -19,6 +19,10 @@ $body-bg: #eee;
 $link-color:       inherit;
 $link-hover-color: null; // same as $link-color
 
+$table-border-color: rgba($black, 0.1);
+
+$progress-bg: $table-striped-bg;
+
 
 /* Add custom variables for dark colors, not included in the default bootstrap
  * source code. These will be used automatically, if the client prefers a dark
