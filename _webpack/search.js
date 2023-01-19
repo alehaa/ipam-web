@@ -7,6 +7,7 @@
  * this source code.
  */
 
+import {IPAM}    from './ipam';
 import {IpRange} from './range';
 import {Page}    from './page';
 import {Query}   from './query';
@@ -39,6 +40,10 @@ export class Search
       return '/lookup/range.html';
     if (Query.isSubnet(q))
       return '/lookup/subnet.html';
+
+    /* In any other case, no redirect to a specific lookup page is possible and
+     * the generic search result page will be used instead. */
+    return '/search.html';
   }
 
   /**
@@ -62,7 +67,112 @@ export class Search
     const query = Query.parse(data.get('query'));
     window.location = Page.toResourceUrl(
       IPAM_BASE_URL + this.getResourceTypeUrl(query),
-      query);
+      encodeURIComponent(query));
+  }
+
+  /**
+   * Add static metadata for search datasets.
+   *
+   *
+   * @param type The datatype to be applied on the dataset.
+   *
+   * @returns Anonymous function to enrich the data.
+   */
+  static toSearchData(type)
+  {
+    return (data) => {
+      data['type'] = type;
+      return data;
+    };
+  }
+
+  /**
+   * Convert a dataset to search result.
+   *
+   * This method takes a given search result and transforms it into a search
+   * result representation required by the search result list page.
+   *
+   *
+   * @param data The search result to be converted.
+   *
+   * @returns The search result representation.
+   */
+  static toSearchResult(data)
+  {
+    const typeMap = {
+      'block': {
+        'title': 'Block',
+        'index': 'network',
+        'link':  '/lookup/block.html',
+        },
+    };
+
+    /* Map the search result according to the mapping defined above. Attributes
+     * will be processed, if necessary. */
+    const type = typeMap[data['type']]
+    const name = data[type.index]
+    return {
+      'type': type.title,
+      'name': name,
+      'link': Page.toResourceUrl(IPAM_BASE_URL + type.link, name),
+      'data': data['res'].join('<br/>'),
+    }
+  }
+
+  /**
+   * Perform a new search query.
+   *
+   * This method searches all API data sources for a given search @p query. The
+   * results will be returned in a specific data format just for printing the
+   * search results.
+   *
+   *
+   * @param query The query string to be searched.
+   *
+   * @returns Promise to fetch the data.
+   */
+  static search(query)
+  {
+    /* Helper function for matching the a specific value to input query. Resides
+     * in this method to have access for query parameter without explicitly
+     * passing it. */
+    function match(v)
+    {
+      if (v)
+      {
+        const expr = new RegExp(query, 'i');
+        return String(v).match(expr) ?
+          v.replace(expr, '<span class="bg-warning text-dark">$&</span>')
+          : null;
+      }
+
+    }
+
+    return Promise
+      /* Gather all API data sources (IPv4 & IPv6) and enrich it ready to be
+       * searched. Especially the type of data will be added for reference at
+       * display time. */
+      .all([
+        IPAM.fetchBlockAll().then(r => r.map(this.toSearchData('block'))),
+      ])
+      .then(response => response.flat())
+
+      /* Filter the data for items with attributes matching the query. If an
+       * attribute matches the query, it will be returned in the dataset to be
+       * printed later. */
+      .then(response => response.map((data) => {
+          data['res'] = [
+            match(data.scope),
+            match(data.owner),
+            match(data.description),
+          ].filter(x => x);
+          return data;
+        }))
+      .then(response => response.filter((data) => data.res.length > 0))
+
+      /* Parse all matching results to be printed as search results. Therefore
+       * most attributes will be dropped and specific parts highlighted. */
+      .then(response => response.map(this.toSearchResult));
   }
 }
 

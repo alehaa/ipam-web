@@ -84,6 +84,11 @@ export class Query
     try { // Subnet has no isValid method
       return ipaddr.parseCIDR(q);
     } catch {}
+
+
+    /* If query is not one of the known objects above, just it as plain string.
+     * Usually the search form will handle this case. */
+    return q.trim();
   }
 
   /**

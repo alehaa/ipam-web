@@ -1,0 +1,30 @@
+---
+layout: generic
+title:  Search results
+init:   search
+navbar:
+  search: false
+---
+
+<div class="row mb-4">
+  <div class="col">
+    {% include search.html classes='form-control-lg' label='Search' %}
+  </div>
+</div>
+
+{% include error.html %}
+
+<div id="content">
+  <div class="row">
+    <div class="col">
+      <table class="table table-sm table-hover" id="ipam.table.search">
+        <thead>
+          <th data-field="type" class="col-2">Type</th>
+          <th data-field="name" class="col-3">Name</th>
+          <th data-field="data">Matches</th>
+        </thead>
+        <tbody style="cursor: pointer"></tbody>
+      </table>
+      </div>
+  </div>
+</div>

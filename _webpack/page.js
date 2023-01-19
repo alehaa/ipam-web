@@ -108,10 +108,12 @@ export class Page
    *
    *
    * @param message The message to be displayed.
+   * @param title Whether the title of the page should be changed, or not.
    */
-  static error(message)
+  static error(message, title=true)
   {
-    this.setTitle('Error');
+    if (title)
+      this.setTitle('Error');
     this.setContent('error.message', message);
 
     this.hide('content');
@@ -295,7 +297,7 @@ export class Page
 
       /* As each row of the table should link to the related resource, an URL
        * will be generated and its onclick event will be set for redirecting. */
-      let lnk = this.toResourceUrl(
+      let lnk = item['link'] ?? this.toResourceUrl(
         dom.dataset.link,
         item[dom.dataset.linkField]);
       r.onclick = function() { document.location = lnk; }

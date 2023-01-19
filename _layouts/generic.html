@@ -15,18 +15,10 @@ layout: dynamic
 <div class="container">
   <div class="row">
     <div class="col">
-      <div id="title" class="h1 fw-lighter">
-        <div class="spinner-border" role="status">
-          <span class="visually-hidden">Loading...</span>
-        </div>
-      </div>
+      <h1 class="fw-lighter">{{ page.title }}</h1>
       <hr/>
     </div>
   </div>
 
-  {% include error.html %}
-
-  <div id="content">
   {{ content }}
-  </div>
 </div>

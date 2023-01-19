@@ -11,6 +11,7 @@ import {IPAM}    from './ipam';
 import {IpRange} from './range';
 import {Page}    from './page';
 import {Query}   from './query';
+import {Search}  from './search';
 
 
 // =====
@@ -151,4 +152,28 @@ export function lookup_block()
 export function list_blocks()
 {
   IPAM.fetchBlockAll().then(data => Page.addTableRows('block', data));
+}
+
+/**
+ * Perform a new search query.
+ *
+ * This function is called from the search page and will be used to lookup all
+ * search results of a given query.
+ */
+export function search()
+{
+  const q = query.global;
+
+  /* Evaluate the query. If the query doesn't match a specific length, it will
+   * be rejected and an error displayed instead. */
+  document.getElementById('search').query.value = q;
+  if (q.length < 3)
+  {
+    Page.error('Minimum search query length is 3.', false);
+    return;
+  }
+
+  /* Gather all results and print them in the results table. Results won't be
+   * sorted in any kind, they're simply printed in API dataset order. */
+  Search.search(q).then(data => Page.addTableRows('search', data));
 }
