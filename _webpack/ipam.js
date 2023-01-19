@@ -339,6 +339,20 @@ export class IPAM
   }
 
   /**
+   * Get the subnet collection.
+   *
+   *
+   * @param version Optional IP version to limit collection.
+   *
+   * @returns Promise to fetch the data.
+   */
+  static fetchSubnetAll(version = null)
+  {
+    return this.fetchCollection('subnet.json', version)
+      .then(response => response.map(this.enrichSubnet));
+  }
+
+  /**
    * Fetch an IP subnet object.
    *
    * This method searches the API for a specific subnet object and returns it.
@@ -350,9 +364,8 @@ export class IPAM
    */
   static fetchSubnet(subnet)
   {
-    return this.fetch(this.ipVersion(subnet[0]), 'subnet.json')
-      .then(response => response.find((item) => item.network == subnet))
-      .then(this.enrichSubnet);
+    return this.fetchSubnetAll(this.ipVersion(subnet[0]))
+      .then(response => response.find((item) => item.network == subnet));
   }
 
   /**
@@ -368,11 +381,10 @@ export class IPAM
    */
   static fetchSubnetByIp(ip)
   {
-    return this.fetch(this.ipVersion(ip), 'subnet.json')
+    return this.fetchSubnetAll(this.ipVersion(ip))
       .then(response => response.find(
         (item) => ip.match(ipaddr.parseCIDR(item.network))
-        ))
-      .then(this.enrichSubnet);
+        ));
   }
 
   /**
@@ -387,11 +399,10 @@ export class IPAM
    */
   static fetchSubnetOfBlock(block)
   {
-    return this.fetch(this.ipVersion(block[0]), 'subnet.json')
+    return this.fetchSubnetAll(this.ipVersion(block[0]))
       .then(response => response.filter((item) => {
         return ipaddr.parseCIDR(item.network)[0].match(block);
-      }))
-      .then(response => response.map(this.enrichSubnet));
+      }));
   }
 
 

@@ -110,6 +110,11 @@ export class Search
         'index': 'range',
         'link':  '/lookup/range.html',
         },
+      'subnet': {
+        'title': 'Subnet',
+        'index': 'network',
+        'link':  '/lookup/subnet.html',
+        },
       'block': {
         'title': 'Block',
         'index': 'network',
@@ -165,6 +170,7 @@ export class Search
       .all([
         IPAM.fetchIpAll().then(    r => r.map(this.toSearchData('ip'))),
         IPAM.fetchRangeAll().then( r => r.map(this.toSearchData('range'))),
+        IPAM.fetchSubnetAll().then(r => r.map(this.toSearchData('subnet'))),
         IPAM.fetchBlockAll().then( r => r.map(this.toSearchData('block'))),
       ])
       .then(response => response.flat())
