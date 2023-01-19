@@ -42,3 +42,7 @@
 - id:   description
   name: Description
   icon: fa-comment
+
+- id:   utilized
+  name: Utilization
+  hide: true
