@@ -424,7 +424,7 @@ export class IPAM
    *
    * @returns Promise to fetch the data.
    */
-  static fetchBlockAll(version=null)
+  static fetchBlockAll(version = null)
   {
     return this.fetchCollection('block.json', version);
   }

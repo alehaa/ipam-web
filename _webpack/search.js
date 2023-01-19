@@ -160,7 +160,6 @@ export class Search
           v.replace(expr, '<span class="bg-warning text-dark">$&</span>')
           : null;
       }
-
     }
 
     return Promise
