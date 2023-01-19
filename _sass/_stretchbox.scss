@@ -14,17 +14,17 @@
  * its size should be 100% viewport height excluding top and bottom margins for
  * header / footer.
  *
- * To really center the content, the header size will be multiplied by two, to
- * ensure the following stretchbox really will have its center in the center of
- * the viewport.
+ * NOTE: As 'real center' doesn't seem to be nice for eyes, the content will be
+ *       placed slightly above by simply multiplying the excess spaces by three
+ *       instead of two.
  *
  * NOTE: This solution only works for pages with a larger header than footer, or
  *       the strechbox will exceed its valid space and the page will have a
  *       scrollbar even on almost empty pages.
  */
-$stretchbox-size: 2 * (
+$stretchbox-size: 3 * (
   ($navbar-brand-height + (2 * $navbar-padding-y))
-+ (3 * $font-size-base));
+  + (5 * $font-size-base));
 
 
 .stretchbox {
