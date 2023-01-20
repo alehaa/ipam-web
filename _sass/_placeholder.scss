@@ -1,0 +1,19 @@
+/* This file is part of IPAM Web.
+ *
+ * Copyright (c) Alexander Haase <ahaase@alexhaase.de>
+ *
+ * This project is licensed under the MIT License. For the full copyright and
+ * license information, please view the LICENSE file that was distributed with
+ * this source code.
+ */
+
+/* The following class displays a previously hidden placeholder, if no other
+ * child div of the container is visible.
+ *
+ * NOTE: Using this class requires all visible elements to have the 'd-block'
+ *       class set.
+ */
+
+div:not(:has(div.d-block)) div.placeholder {
+  display: block !important;
+}

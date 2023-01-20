@@ -29,6 +29,7 @@ export class Page
    */
   static hide(id)
   {
+    document.getElementById(id).classList.remove('d-block');
     document.getElementById(id).classList.add('d-none');
   }
 
@@ -41,6 +42,7 @@ export class Page
   static show(id)
   {
     document.getElementById(id).classList.remove('d-none');
+    document.getElementById(id).classList.add('d-block');
   }
 
   /**
