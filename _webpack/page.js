@@ -276,7 +276,8 @@ export class Page
 
         /* If the field describes utilization data, render a little graph
          * indicating its utilization. */
-        if (field == 'percentUtilized' && field in item)
+        if ((field == 'percentAssigned' || field == 'percentUtilized')
+            && field in item)
         {
           const bar = document.createElement('div');
           bar.classList.add('progress-bar');
