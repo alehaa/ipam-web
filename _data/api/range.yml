@@ -43,6 +43,6 @@
   name: Description
   icon: fa-comment
 
-- id:   utilized
+- id:   percentUtilized
   name: Utilization
   hide: true

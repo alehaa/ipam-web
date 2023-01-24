@@ -79,7 +79,7 @@ export function lookup_range()
     Page.fillCard('range', data);
     Page.drawGraph(
       'utilization',
-      (data && 'utilized' in data) ? data.utilized : null);
+      (data && 'percentUtilized' in data) ? data.percentUtilized : null);
   });
   IPAM.fetchSubnetByIp(q.first).then(data => Page.fillSubnet(data, ''));
   IPAM.fetchIpOfRange(q).then(data => Page.addTableRows('ip', data));
@@ -109,7 +109,7 @@ export function lookup_subnet()
     Page.fillSubnet(data, '');
     Page.drawGraph(
       'utilization',
-      (data && 'utilized' in data) ? data.utilized : null);
+      (data && 'percentUtilized' in data) ? data.percentUtilized : null);
   });
   IPAM.fetchBlockByIp(q[0]).then(data => Page.fillCard('block', data));
   IPAM.fetchRangeOfSubnet(q).then(data => Page.addTableRows('range', data));

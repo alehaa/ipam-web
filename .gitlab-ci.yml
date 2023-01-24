@@ -28,4 +28,10 @@ build:
     - jekyll build --destination public --baseurl "$IPAM_BASE_URL"
   artifacts:
     paths:
-    - public
+      - public
+
+      # To allow using the IPAM scripts in downstream projects for API data
+      # generation, these will be included in the artifacts. As they do not
+      # reside in the public folder, they won't be published on the final site
+      # by GitLab Pages.
+      - bin
