@@ -103,6 +103,25 @@ export class IPAM
   }
 
   /**
+   * Get the last update date from API.
+   *
+   * Typically, IPAM Web has no live API, but gets periodic updates. This method
+   * gets the last update timestamp from API files and returns it as @ref Date
+   * object.
+   *
+   *
+   * @returns Promise to fetch the data.
+   */
+  static getLastUpdate()
+  {
+    return fetch([IPAM_BASE_URL, 'api', 'update'].join('/'))
+      .then(response => {
+        if (response.status == 404) return null;
+        return response.text().then(text => new Date(Date.parse(text.trim())));
+      });
+  }
+
+  /**
    * Fetch data via API.
    *
    * This method fetches a specific @p file for objects of a given @p ipVersion

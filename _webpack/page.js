@@ -7,6 +7,7 @@
  * this source code.
  */
 
+import {IPAM}    from './ipam';
 import {Search}  from './search';
 
 
@@ -307,3 +308,19 @@ export class Page
     });
   }
 }
+
+
+/* On all pages, the last update of data should be displayed. It is retrieved by
+ * the IPAM API class from a static file and will be displayed in a short date
+ * time format. */
+IPAM.getLastUpdate().then(response => {
+  if (response)
+  {
+    const d = response.toLocaleString([], {
+      dateStyle: 'medium',
+      timeStyle: 'short'
+    });
+    const dom = document.getElementById('ipam.last_update');
+    dom.textContent = 'Last update: ' + d;
+  }
+});

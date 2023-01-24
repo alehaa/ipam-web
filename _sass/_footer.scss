@@ -41,5 +41,5 @@ footer {
   /* Define the look and feel of the footer by aliasing a set of existing
    * bootstrap classes, so these don't have be set additionally for the footer
    * in HTML. */
-  @extend .small, .text-muted, .text-end;
+  @extend .small, .text-muted;
 }
