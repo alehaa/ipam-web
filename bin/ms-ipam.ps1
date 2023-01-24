@@ -19,7 +19,13 @@ param (
   # The CimSession, required for logon on the IPAM server. It will have the IPAM
   # server set as session parameter, so following IPAM cmdlets won't require it
   # as extra parameter.
-  [Parameter(Mandatory)] [CimSession[]] $CimSession
+  [Parameter(Mandatory)] [CimSession[]] $CimSession,
+
+  # Where to store the API collection files. Typically this path doesn't need to
+  # be changed, as it has the hardcoded HTTP path already set. However, it might
+  # be changed when this script is not called from the web root as current
+  # working directory (CWD).
+  [String] $Path = 'api'
 )
 
 
@@ -153,7 +159,7 @@ foreach ($version in ('IPv4', 'IPv6'))
 {
   # Generate the IP-version-dependent path for all API collection files, which
   # will be generated below. The path will be created, if it's not available.
-  $dst = Join-Path -Path 'api' -ChildPath $version.Substring(2, 2)
+  $dst = Join-Path -Path $Path -ChildPath $version.Substring(2, 2)
   New-Item -ItemType 'directory' -Force -Path $dst | Out-Null
 
 
