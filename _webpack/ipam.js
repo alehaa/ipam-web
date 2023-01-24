@@ -195,6 +195,32 @@ export class IPAM
     .then(response => response.flat());
   }
 
+  /**
+   * Compare two IP addresses.
+   *
+   * This method takes two IP addresses and compares them. Its intended to be
+   * used by the `sort()` method of @ref Array.
+   *
+   *
+   * @param a First IP.
+   * @param b Second IP.
+   *
+   * @returns Integer indicating whether IP @p a is greater, equal or less then
+   *          IP @p b.
+   */
+  static cmpIp(a, b)
+  {
+    const aByte = a.toByteArray();
+    const bByte = b.toByteArray();
+    return aByte
+      .map((e, i) => e - bByte[i])
+      .reduce((accumulator, e, i) => {
+        let byte = (aByte.length - i - 1);
+        let mult = (2 ** (8 * byte));
+        return accumulator + (e * mult);
+      }, 0);
+  }
+
 
 
 
@@ -275,6 +301,9 @@ export class IPAM
     return this.fetchIpAll(this.ipVersion(range.first))
       .then(response => response.filter((item) => {
         return range.match(ipaddr.process(item.ip));
+      }))
+      .then(response => response.sort((a, b) => {
+        return this.cmpIp(ipaddr.parse(a.ip), ipaddr.parse(b.ip));
       }));
   }
 
@@ -369,7 +398,10 @@ export class IPAM
   static fetchRangeOfSubnet(subnet)
   {
     return this.fetchRangeAll(this.ipVersion(subnet[0]))
-      .then(response => response.filter((i) => i.range.first.match(subnet)));
+      .then(response => response.filter((i) => i.range.first.match(subnet)))
+      .then(response => response.sort((a, b) => {
+        return this.cmpIp(a.range.first, b.range.first);
+      }));
   }
 
 
@@ -473,7 +505,11 @@ export class IPAM
     return this.fetchSubnetAll(this.ipVersion(block[0]))
       .then(response => response.filter((item) => {
         return ipaddr.parseCIDR(item.network)[0].match(block);
-      }));
+      }))
+      .then(response => response.sort((a, b) => this.cmpIp(
+        ipaddr.parseCIDR(a.network)[0],
+        ipaddr.parseCIDR(b.network)[0]
+      )));
   }
 
 
