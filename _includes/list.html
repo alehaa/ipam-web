@@ -8,7 +8,8 @@
   this source code.
 {% endcomment %}
 
-<div class="row {% if include.margin %}mt-4{% endif %}">
+<div class="row {% if include.margin %}mt-4{% endif %} {% if include.hidden %}d-none{% endif %}"
+     id="ipam.list.{{ include.id }}">
   <div class="col">
     {% if include.title %}
       <h1 class="fw-lighter">{{ include.title }}</h1>

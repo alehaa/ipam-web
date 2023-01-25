@@ -50,7 +50,13 @@ export function lookup_ip()
   /* Process the query, fetch all data and fill the related data into the cards
    * and tables at the page. */
   Page.setTitle(q);
-  IPAM.fetchIp(q).then(        data => Page.fillCard('ip',     data));
+  IPAM.fetchIp(q).then(data => {
+    Page.fillCard('ip', data);
+    if (data.name)
+      IPAM.fetchIpByName(data.name)
+        .then(response => response.filter(item => item.ip != data.ip))
+        .then(response => Page.addTableRows('ip', response));
+  });
   IPAM.fetchRangeByIp(q).then( data => Page.fillCard('range',  data));
   IPAM.fetchSubnetByIp(q).then(data => Page.fillSubnet(data, q));
 }

@@ -307,6 +307,24 @@ export class IPAM
       }));
   }
 
+  /**
+   * Get all IPs matching a given @p name.
+   *
+   * This method gets all IPs, that match a specific @p name. Its intended to be
+   * used for additional IPs of a single host.
+   *
+   *
+   * @param name The name to be looked up.
+   *
+   * @returns Promise to fetch the data.
+   */
+  static fetchIpByName(name)
+  {
+    return this.fetchIpAll()
+      .then(response => response.filter((item) => {
+        return item.name == name;
+      }));
+  }
 
 
 

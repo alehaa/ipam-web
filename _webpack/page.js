@@ -306,6 +306,11 @@ export class Page
         item[dom.dataset.linkField]);
       r.onclick = function() { document.location = lnk; }
     });
+
+    /* Some tables may be hidden for a better look and feel. Therefore, ff data
+     * is added to the table, the whole div will be shown anyway. */
+    if (data.length > 0)
+      this.show('ipam.list.' + table);
   }
 }
 

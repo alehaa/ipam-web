@@ -8,3 +8,12 @@ init: lookup_ip
   {% include cards/range.html %}
   {% include cards/subnet.html %}
 </div>
+
+{% include list.html
+  id     = 'ip'
+  title  = 'Additional IP assignments'
+  fields = 'ip,mac,description'
+  widths = 'col-2,col-2,'
+  margin = true
+  hidden = true
+%}
