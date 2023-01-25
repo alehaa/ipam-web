@@ -215,8 +215,9 @@ foreach ($version in ('IPv4', 'IPv6'))
       $commonProperties +
       @(
         @{ Name = "ip";         Expression = { [String]$_.IpAddress } },
-        @{ Name = "name";       Expression = { $_.DeviceName } },
-        @{ Name = "mac";        Expression = { $_.MacAddress } },
+        @{ Name = "name";       Expression = { $_.DeviceName ??
+                                               $_.ReservationName } },
+        @{ Name = "mac";        Expression = { $_.MacAddress ?? $_.ClientID } },
         @{ Name = "type";       Expression = { $_.DeviceType } },
         @{ Name = "asset";      Expression = { $_.AssetTag } },
         @{ Name = "serial";     Expression = { $_.SerialNumber } },
