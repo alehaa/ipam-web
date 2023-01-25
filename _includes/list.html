@@ -12,7 +12,8 @@
      id="ipam.list.{{ include.id }}">
   <div class="col">
     {% if include.title %}
-      <h1 class="fw-lighter">{{ include.title }}</h1>
+      <div class="fw-lighter {{ include.header | default: 'h2' }}"
+           role="heading">{{ include.title }}</div>
       <hr/>
     {% endif %}
 
