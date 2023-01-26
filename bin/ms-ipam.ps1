@@ -55,7 +55,7 @@ Import-Module IpamServer -SkipEditionCheck
 #
 function ToDate($_)
 {
-  return $_.ToString("%F")
+  return $_.ToString("yyyy-MM-dd")
 }
 
 ##
