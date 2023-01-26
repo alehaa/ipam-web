@@ -96,7 +96,9 @@ export class IPAM
       .filter(k => dateFields.includes(k))
       .forEach(key => {
         item[key] = new Date(Date.parse(item[key]));
-        item[key].toString = item[key].toLocaleString;
+        item[key].toString = (() =>
+          item[key].toLocaleString([], {dateStyle: 'medium'})
+        );
       });
 
     return item;
