@@ -68,7 +68,7 @@ function ToDate($_)
 #
 function ToMac($_)
 {
-  if ($_)
+  if ($_.length -eq 12)
   {
     $s = ($_ -split '(?<=\G.{2})') -join "-"
     return $s.Substring(0, $s.Length - 1)
