@@ -59,6 +59,23 @@ function ToDate($_)
 }
 
 ##
+# Convert ClientID String to MAC address.
+#
+#
+# @param _ The ClientID string to be converted.
+#
+# @returns String in MAC Address format (with dashes).
+#
+function ToMac($_)
+{
+  if ($_.length -eq 12)
+  {
+    $s = ($_ -split '(?<=\G.{2})') -join "-"
+    return $s.Substring(0, $s.Length - 1)
+  }
+}
+
+##
 # Minify objects.
 #
 # This function takes an @p InputObject (via parameter or pipeline) and minifies
@@ -211,13 +228,18 @@ foreach ($version in ('IPv4', 'IPv6'))
     | Write-ApiFile -FilePath "range.json"
 
   Get-IpamAddress @CommonParams `
+    | Foreach-Object {
+      if (!$_.DeviceName)  { $_.DeviceName  = $_.ReservationName }
+      if (!$_.MacAddress)  { $_.MacAddress  = ToMac($_.ClientID) }
+      if (!$_.Description) { $_.Description = $_.ReservationDescription }
+      return $_
+      }
     | Select-Object -Property (
       $commonProperties +
       @(
         @{ Name = "ip";         Expression = { [String]$_.IpAddress } },
-        @{ Name = "name";       Expression = { $_.DeviceName ??
-                                               $_.ReservationName } },
-        @{ Name = "mac";        Expression = { $_.MacAddress ?? $_.ClientID } },
+        @{ Name = "name";       Expression = { $_.DeviceName } },
+        @{ Name = "mac";        Expression = { $_.MacAddress } },
         @{ Name = "type";       Expression = { $_.DeviceType } },
         @{ Name = "asset";      Expression = { $_.AssetTag } },
         @{ Name = "serial";     Expression = { $_.SerialNumber } },
