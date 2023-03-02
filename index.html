@@ -7,7 +7,8 @@ navbar:
 <div class="container">
   <div class="d-inline-flex align-items-center w-100 stretchbox">
     <div class="w-100">
-      {% include search.html classes='form-control-lg' label='Search' %}
+      {% include search.html classes='form-control-lg' label='Search'
+                             autofocus=true %}
 
       <div class="mt-1 text-muted">
         <a href="{% link lists/block.html %}" style="text-decoration: none;">
