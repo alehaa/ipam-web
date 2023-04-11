@@ -71,6 +71,10 @@ export class Query
    */
   static parse(q)
   {
+    /* Trim string to remove any whitespace, that may be pasted in the search
+     * form by accident, e.g. when copying the string from another tool. */
+    q = q.trim();
+
     /* The query can have these types of data: IP, IP Range, IP subnet, MAC
      * address or string. As the complex datatypes will be represented by
      * objects, first check these and convert the query into them, if validation
@@ -92,7 +96,7 @@ export class Query
 
     /* If query is not one of the known objects above, just it as plain string.
      * Usually the search form will handle this case. */
-    return q.trim();
+    return q;
   }
 
   /**
