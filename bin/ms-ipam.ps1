@@ -25,7 +25,13 @@ param (
   # be changed, as it has the hardcoded HTTP path already set. However, it might
   # be changed when this script is not called from the web root as current
   # working directory (CWD).
-  [String] $Path = 'api'
+  [String] $Path = 'api',
+
+  # Most fields of MS IPAM are fixed. However, setting the site for a managed
+  # object is not always possible in an easy way. To solve this, administrators
+  # may define a custom field instead. The following parameter can be used to
+  # use this field as fallback, if the 'NetworkSite' is not set.
+  [String] $SiteField
 )
 
 
@@ -170,7 +176,8 @@ $commonProperties = `
   @{ Name = "percentAssigned"; Expression = { [int]$_.PercentageAssigned } },
   @{ Name = "percentUtilized"; Expression = { [int]$_.PercentageUtilized } },
   @{ Name = "network";         Expression = { $_.NetworkId } },
-  @{ Name = "site";            Expression = { $_.NetworkSite } }
+  @{ Name = "site";            Expression = { $_.NetworkSite ??
+                                              $_.CustomFields[$SiteField] } }
 
 foreach ($version in ('IPv4', 'IPv6'))
 {
