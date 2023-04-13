@@ -61,6 +61,23 @@ export class Page
   }
 
   /**
+   * Create a new HTML href link.
+   *
+   *
+   * @param url Where the link should point to.
+   * @param text Text of the generated link.
+   *
+   * @returns The generated HTML link.
+   */
+  static createLink(url, text)
+  {
+    var a = document.createElement('a');
+    a.href = url;
+    a.innerHTML = text;
+    return a;
+  }
+
+  /**
    * Set the content of a given HTML element.
    *
    *
@@ -79,12 +96,26 @@ export class Page
      *       mainly is required for IP ranges. */
     if ('link' in dom.dataset)
     {
-      var a = document.createElement('a');
-      a.href = this.toResourceUrl(dom.dataset.link, value);
-      a.innerHTML = value;
-      dom.appendChild(a);
+      dom.appendChild(
+        this.createLink(this.toResourceUrl(dom.dataset.link, value),
+                        value));
       return;
     }
+
+    /* Replace URLs in the text with clickable links. This allows easy linking
+     * to internal documentation for specific entries, that can't be documented
+     * inside of the IPAM database.
+     *
+     * NOTE: This method allows for simple URLs being used only. Not even query
+     *       parameters will be parsed, as these have been sanitized when
+     *       reading the IPAM database. */
+    const urlRegex = /https?:\/\/[^\s]+/g;
+    if (typeof value == 'string')
+      value = value.replace(urlRegex, url => {
+        var a = this.createLink(url, url);
+        a.target = '_blank';
+        return a.outerHTML;
+      });
 
     dom.innerHTML = value;
   }
