@@ -172,7 +172,7 @@ function Write-ApiFile
 $commonProperties = `
   @{ Name = "owner";           Expression = { $_.Owner } },
   @{ Name = "description";     Expression = { $_.Description } },
-  @{ Name = "scope";           Expression = { $_.AccessScopePath } },
+  @{ Name = "scope";           Expression = { $_.AccessScopePath.Remove(1,7) }},
   @{ Name = "percentAssigned"; Expression = { [int]$_.PercentageAssigned } },
   @{ Name = "percentUtilized"; Expression = { [int]$_.PercentageUtilized } },
   @{ Name = "network";         Expression = { $_.NetworkId } },
